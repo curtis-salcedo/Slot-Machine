@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  justify-content: flex-start;
+  background-color: transparent;
+}
+
+header:hover {
+  color:#ffd700;
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  background-image: linear-gradient(to bottom right, green,lightgreen,greenyellow,yellow);
+  /* grid-template-columns: 50px auto auto 10px;
+  grid-template-rows: 100px 90px auto 40px; */
+  grid-template-columns: 10vw auto auto 10vw;
+  grid-template-rows: 12vh 10vh auto 10vh;
+}
+
+h1 {
+  height: 10vh;
+  background-color: transparent;
+  color: rgb(155, 133, 14);
+  text-align: center;
+  grid-column: span 4;
+  grid-row: 1;
+}
+
+h2 {
+  height: 10vh;
+  text-align: center;
+  grid-row: 2;
+  grid-column: span 4;
+}
+
+.container {
+  display: grid;
+  height: 700px;
+  width: 700px;
+  padding: .75vh;
+  background-image: linear-gradient(to bottom right, rgb(4, 40, 113), rgba(0, 0, 255, 0.85),rgb(34, 138, 172), rgb(83, 117, 144));
+  grid-template: repeat(3, 1fr) / repeat(5, 1fr);
+  grid-column: 2/3;
+  grid-row: 3;
+  border: solid .25vh #ffd700;
+  border-radius: 3%;
+  box-shadow: 0 0 .25vh #ffd700;
+  animation: shadow-glow 2s ease-in-out infinite alternate;
+  justify-content: center;
+}
+
+.cells {
+  display: grid;
+  font-size: 10vh;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin: .25vh;
+  height: auto;
+  width: auto;
+  border: .35vh solid goldenrod;
+  animation: cell-shadow-glow 10s ease-in-out infinite alternate;
+  background-color: rgba(255, 123, 0, 0.992);
+  border-radius: 3%;
+}
+
+.info {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  grid-row: 4;
+  grid-column: span 4;
+}
+
+.info > div {
+  margin-right: .25vh;
+}
+
+#spin-button {
+  color: white;
+  background-color: red;
+  height: 10vh;
+  width: 10vh;
+  margin-top: 3vh;
+  border-radius: 50%;
+  border: .25vh solid #ffd700;;
+}
+
+/* #bet-amount {
+
+} */
+
+/* #add-money {
+
+} */
+
+
+
+
+
+
+/* @keyframes cell-shadow-glow {
+  0% {
+    box-shadow: 0 0 2px #ffd700;
+  }
+  80% {
+    box-shadow: 1px 1px 12px #ffd700;
+  }
+}
+
+
+@keyframes shadow-glow {
+  0% {
+    box-shadow: 0 0 10px #ffd700;
+  }
+  50% {
+    box-shadow: 0 0 50px #ffd700; */
