@@ -38,6 +38,11 @@ h2 {
   grid-column: span 4;
 }
 
+h3 {
+  border: .25vh solid black;
+  padding: .25vh 4vw;
+}
+
 .container {
   display: grid;
   height: 700px;
