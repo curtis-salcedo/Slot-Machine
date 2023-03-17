@@ -42,15 +42,6 @@ h2 {
   grid-column: span 4;
 }
 
-h3 {
-  background-color: brown;
-  height: 5vmin;
-  padding: .25vh 4vw;
-  border: .25vh solid black;
-  border-radius: .75vmin;
-  justify-content: center;
-}
-
 .container {
   display: grid;
   height: 80vmin;

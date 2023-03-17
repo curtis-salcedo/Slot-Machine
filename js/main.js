@@ -103,14 +103,20 @@ function renderMessage() {
 // CHECK THE RESULTS THAT END UP IN screenEls
 // COMPARE AGAINST THE cellArray and winningCombos FOR WINNERS
 // LOOK UP TO HIGHLIGHT WINNERS
-
-
-// 
-function spinReel() {
-  winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  // console.log(winArray)
-  return winArray;
-}
+function checkWinner() {
+  
+  for (let i = 0; i < winArray.length; i++) {
+    const combo = winArray[i]
+      const a = winArray[combo[0]];
+      const b = winArray[combo[1]];
+      const c = winArray[combo[2]];
+      const d = winArray[combo[3]];
+      const e = winArray[combo[4]];
+      if (a !== '' && a === b && b === c && c === d & d === e) {
+        
+      }
+  }
+};
 
 // POSSIBLY USED TO RESET THE screen
 function renderScreen() {
@@ -124,19 +130,6 @@ function renderScreen() {
     })
     checkWinner();
   })
-};
-
-function checkWinner() {
-  for (let i = 0; i < combo.length; i++) {
-    for (let j = 0; j < combo[i].length; j++) {
-      const cell = combo[i][j];
-      console.log(combo[i][0])
-      if (winArray[combo[i][j]] === combo[i][0]) {console.log('true');}
-      // console.log(winArray[combo[i][j]], combo[i][j])
-    }
-  }
-
-  // console.log(winArray[combo[0][0]], winArray[combo[0][1]], winArray[combo[0][2]])
 
 };
 
