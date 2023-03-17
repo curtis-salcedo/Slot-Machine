@@ -35,15 +35,15 @@ let winTotal = 0;
 // WINNING COMBONATIONS
 // **TBD ON POSSIBLE MULTI-WIN COMBOS / USER SELECTED WIN COMBO AMOUNTS
 // USING AN ARRAY OF EMPTY STRINGS TO FIND THE WINNING COMOBS USING LOOP
-const winningCombos = [
+const combo = [
   // THESE ARE THE 3 ACROSS WINS
-  [1,2,3], // first row standard
-  [6,7,8], // second row standard
-  [11,12,13], // third row standard
+  [0,1,2], // first row standard
+  [5,6,7], // second row standard
+  [10,11,12], // third row standard
   // THESE ARE THE 4 ACROSS WINS
-  [1,2,3,4], // first row extra
-  [6,7,8,9], // second row extra
-  [11,12,13,14], // third row extra
+  [0,1,2,3], // first row extra
+  [5,6,7,8], // second row extra
+  [10,11,12,13], // third row extra
 
 ];
 
@@ -108,7 +108,7 @@ function renderMessage() {
 // 
 function spinReel() {
   winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  console.log(winArray)
+  // console.log(winArray)
   return winArray;
 }
 
@@ -127,31 +127,17 @@ function renderScreen() {
 };
 
 function checkWinner() {
-  console.log(winArray[0])
+  for (let i = 0; i < combo.length; i++) {
+    for (let j = 0; j < combo[i].length; j++) {
+      const cell = combo[i][j];
+      console.log(combo[i][0])
+      if (winArray[combo[i][j]] === combo[i][0]) {console.log('true');}
+      // console.log(winArray[combo[i][j]], combo[i][j])
+    }
+  }
 
+  // console.log(winArray[combo[0][0]], winArray[combo[0][1]], winArray[combo[0][2]])
 
-
-
-  // for(let i = 0; i < winningCombos.length; i++) {
-  //   let combo = winningCombos[i];
-  //   console.log(combo)
-  // } for(let j = 0; j < winningCombos.length; j++) {
-      
-  //     console.log()
-  // }
-
-
-
-  // console.log(combo[0], combo[2], combo[3], combo[4], combo[5], combo[6])
-  // const a = winArray[combo[0]];
-  // console.log(winArray)
-  // const b = winArray[combo[1]];
-  // const c = winArray[combo[2]];
-  // const d = winArray[combo[3]];
-  // const e = winArray[combo[4]];
-  // const f = winArray[combo[5]];
-  // const g = winArray[combo[6]];
-  // console.log(a,b,c,d,e,f,g)
 };
 
 

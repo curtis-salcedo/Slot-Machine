@@ -2,28 +2,31 @@
   box-sizing: border-box;
 }
 
-header {
-  display: flex;
-  justify-content: flex-start;
-  background-color: transparent;
-}
-
-header:hover {
-  color:#ffd700;
-}
-
 body {
   height: 100vh;
+  width: 100vw;
+  margin: 0;
   display: grid;
   background-image: linear-gradient(to bottom right, green,lightgreen,greenyellow,yellow);
   /* grid-template-columns: 50px auto auto 10px;
   grid-template-rows: 100px 90px auto 40px; */
   grid-template-columns: 10vw auto auto 10vw;
-  grid-template-rows: 12vh 10vh auto 10vh;
+  grid-template-rows: 12vmin 10vh auto 20vh;
+}
+
+/* header {
+  display: flex;
+  justify-content: flex-start;
+  background-color: transparent;
+} */
+
+header:hover {
+  color:#ffd700;
 }
 
 h1 {
-  height: 10vh;
+  height: 10vmin;
+  font-size: 6vmin;
   background-color: transparent;
   color: rgb(155, 133, 14);
   text-align: center;
@@ -33,56 +36,65 @@ h1 {
 
 h2 {
   height: 10vh;
+  font-size: 3.5vmin;
   text-align: center;
   grid-row: 2;
   grid-column: span 4;
 }
 
 h3 {
-  border: .25vh solid black;
+  background-color: brown;
+  height: 5vmin;
   padding: .25vh 4vw;
+  border: .25vh solid black;
+  border-radius: .75vmin;
+  justify-content: center;
 }
 
 .container {
   display: grid;
-  height: 700px;
-  width: 700px;
+  height: 80vmin;
+  width: 80vmin;
   padding: .75vh;
   background-image: linear-gradient(to bottom right, rgb(4, 40, 113), rgba(0, 0, 255, 0.85),rgb(34, 138, 172), rgb(83, 117, 144));
   grid-template: repeat(3, 1fr) / repeat(5, 1fr);
   grid-column: 2/3;
   grid-row: 3;
   border: solid .25vh #ffd700;
-  border-radius: 3%;
+  border-radius: 3vmin;
   box-shadow: 0 0 .25vh #ffd700;
   animation: shadow-glow 2s ease-in-out infinite alternate;
   justify-content: center;
 }
 
-.cells {
+.container > .cells {
+  height: 18vh;
+  width: 15vw;
+  font-size: 13vmin;
+  margin: .25vh;
   display: grid;
-  font-size: 10vh;
   align-items: center;
   text-align: center;
   justify-content: center;
-  margin: .25vh;
-  height: auto;
-  width: auto;
   border: .35vh solid goldenrod;
   animation: cell-shadow-glow 10s ease-in-out infinite alternate;
-  background-color: rgba(255, 123, 0, 0.992);
+  background-color: rgba(195, 97, 5, 0.992);
   border-radius: 3%;
+  padding-bottom: 2vmin;
 }
 
 .info {
+  height: 20vmin;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  grid-row: 4;
+  grid-row: 5;
   grid-column: span 4;
+  margin-top: -15vh;
+  background-color: brown;
 }
 
-.info > div {
+.info > h3 {
   margin-right: .25vh;
 }
 
@@ -90,10 +102,10 @@ h3 {
   color: white;
   background-color: red;
   height: 10vh;
-  width: 10vh;
-  margin-top: 3vh;
+  width: 18vh;
   border-radius: 50%;
-  border: .25vh solid #ffd700;;
+  border: 1vmin solid whitesmoke;
+  font-size: 4.5vmin;
 }
 
 /* #bet-amount {
