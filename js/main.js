@@ -27,7 +27,7 @@ let cells;
 
 // CURRENT BALANCE THAT REACTS TO ADDING, 
 // HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
-let balance = 0;
+let balance = 100;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal = 0;
@@ -60,9 +60,10 @@ const screenEls = document.querySelectorAll('cells');
 const spinButtonEl = document.getElementById('spin-button');
 const cellContainer = document.querySelector('container');
 const divEls = document.querySelectorAll('div');
-const messageEl = document.querySelector('h2')
-
-
+const messageEl = document.querySelector('h2');
+const balanceEl = document.getElementById('balance')
+balanceEl.innerText = balance
+const winnerEl = document.getElementById('win-amount')
 /*----- functions -----*/
 
 initialize();
@@ -71,8 +72,8 @@ function initialize() {
   // popUp();
   // gameBoard;
   let winArray;
-  let winTotal = 0;
-  let balance = 1000;
+  let winTotal;
+  let balance;
   // spinReel();
   renderScreen();
   checkWinner();
@@ -80,6 +81,8 @@ function initialize() {
   // betLogic();
   // USED FOR FREE SPINS IF POSSIBLE
   // countSpins();
+  winTotal = 0;
+  checkBalance();
 };
 function popUp () {
   // spinButtonEl.addEventListener('click', function(){
@@ -102,8 +105,10 @@ function renderMessage() {
 
 function spinReel() {
   winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
+  balance = balance - 10;
+  balanceEl.innerText = balance;
+  console.log(balance)
   // console.log(winArray)
-  return winArray;
 }
 
 // CHECK THE RESULTS THAT END UP IN screenEls
@@ -111,34 +116,24 @@ function spinReel() {
 // LOOK UP TO HIGHLIGHT WINNERS
 
 function checkWinner() {
-  for (let i = 0; i < combo.length; i++) {
-    for (let j = 0; j < combo[i].length; j++) {
-      const cell = combo[i][j];
-      console.log(combo[i][0])
-      if (winArray[combo[i][j]] === combo[i][0]) {console.log('true');}
-      // console.log(winArray[combo[i][j]], combo[i][j])
-    }
+  let w = winArray
+  if (winArray[0] === winArray[1] && winArray[1] === winArray[2]) {
+    balance = balance + 50;
+    winTotal += 50;
+    console.log('true', balance, winTotal);
+  }
+  if (winArray[5] === winArray[6] && winArray[6] === winArray[7]) {
+    balance = balance + 50;
+    winTotal += 50;
+    console.log('true', balance, winTotal);
+  }
+  if (winArray[10] === winArray[11] && winArray[11] === winArray[12]) {
+    balance = balance + 50;
+    winTotal += 50;
+    console.log('true', balance, winTotal);
   }
 };
-
-  // console.log(winArray[combo[0][0]], winArray[combo[0][1]], winArray[combo[0][2]])
-
-
-// function checkWinner() {
   
-//   for (let i = 0; i < winArray.length; i++) {
-//     const combo = winArray[i]
-//       const a = winArray[combo[0]];
-//       const b = winArray[combo[1]];
-//       const c = winArray[combo[2]];
-//       const d = winArray[combo[3]];
-//       const e = winArray[combo[4]];
-//       if (a !== '' && a === b && b === c && c === d & d === e) {
-        
-//       }
-//   }
-// };
-
 // POSSIBLY USED TO RESET THE screen
 function renderScreen() {
   spinButtonEl.addEventListener('click', function(){
@@ -151,81 +146,97 @@ function renderScreen() {
     })
     checkWinner();
   })
-
 };
 
+function checkBalance() {
+  balanceEl.innerText = balance;
+  winnerEl.innerText = winTotal;
+};
 
 // 1. SPIN BUTTON SHOULD AUTO GENERATE winArray
-  // 1.1 This needs to be available in the global scope for each function to read the winArray to perform their duty
-  // function spin() {
+// 1.1 This needs to be available in the global scope for each function to read the winArray to perform their duty
+// function spin() {
   //   spinButtonEl.addEventListener('click', function(){
-  //     const winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  //     return winArray;
-  //     console.log(winArray)
+    //     const winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
+    //     return winArray;
+    //     console.log(winArray)
+    //   }
+    // }
+    // spin();
+    // 2 AFTER SPIN IS CLICKED IT SHOULD BE READ BY renderScreen();
+    // 2.1 winArray should be converted to string of emojis (CHARACTERS{} object)
+    
+    
+    // 3. CHECK winArray AFTER SCREEN HAS BEEN UPDATED WITH EMOJI'S BASED ON THEIR ARRAY CELL AND INDEX
+    // 3.1
+    
+// TO BE MADE LOOP TO CHECK WINNER
+// function checkWinner()
+   //   for (let i = 0; i < combo.length; i++) {
+     //     for (let j = 0; j < combo[i].length; j++) {
+       // console.log(winArray[combo[i][j]])
+       // console.log(combo[i])
+       // console.log(combo[i][0])
+       // console.log(combo[i][j])
+       // console.log(winArray[combo[i][j]])
+       // console.log(winArray[combo[i][j]], combo[i][j])
+ //     }
   //   }
-  // }
-  // spin();
-// 2 AFTER SPIN IS CLICKED IT SHOULD BE READ BY renderScreen();
-  // 2.1 winArray should be converted to string of emojis (CHARACTERS{} object)
+  // };
+    
+    
+    
+    
+    
+    
+    
+    
 
 
-// 3. CHECK winArray AFTER SCREEN HAS BEEN UPDATED WITH EMOJI'S BASED ON THEIR ARRAY CELL AND INDEX
-  // 3.1
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 
