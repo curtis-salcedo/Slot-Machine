@@ -35,7 +35,7 @@ let cells;
 
 // CURRENT BALANCE THAT REACTS TO ADDING, 
 // HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
-let balance = 500;
+let balance = 1000;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal = 0;
@@ -104,8 +104,8 @@ function popUp () {
   //   return;
   };
   
-  // USED TO TELL PLAYER THEY WON ANY AMOUNT OF MONEY
-  // REPORT THE WINNINGS BELOW "WIN TOTAL" AREA
+// USED TO TELL PLAYER THEY WON ANY AMOUNT OF MONEY
+// REPORT THE WINNINGS BELOW "WIN TOTAL" AREA
 function renderMessage() {
   // START UP ANIMATION
   // betLogic();
@@ -120,17 +120,18 @@ function spinReel() {
   balanceEl.innerText = balance;
   checkWinner();
   if (balance < betAmount) {
-    console.log("You don't have enough credits")
+    console.log("You don't have enough credits, change bet amount or add more credits to continue")
     spinButtonEl.style.backgroundColor = 'darkgrey';
     spinButtonEl.addEventListener('click', function(){
-      divEls.innerHTML = "X"
     })
   }
   if (balance <= 0) {
     alert("You're out of money, game over!")
+    spinButtonEl.style.visibility = 'hidden';
+    spinButtonEl.addEventListener('click', function(){
+    messageEl.innerText = "You're out of credits, add more to continue"
+    })
   }
-  // console.log(balance)
-  // console.log(winArray)
 }
 
 // MASTER renderScreen() FUNCTION WITHOUT VALUES ASSOCIATED IN THE CHARACTERS OBJECT
@@ -158,32 +159,30 @@ function renderScreen() {
 
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
 function checkWinner() {
-
   const w = winArray
   const v = VALUES
-  let cellValue = 0;
-
+  // CHECK WINNER FUNCTIONS
   rowOneCheck();
-  // rowTwoCheck();
-  // rowThreeCheck();
+  rowTwoCheck();
+  rowThreeCheck();
+
   //CHECK ROW 1
-  //4 IN A ROW WINNERS RETURN BOTH WIN TOTALS AND 5 IN A ROW RETURNS 3, 4 AND 5 WIN TOTALS
   function rowOneCheck() {
     // ROW ONE 5 IN A ROW
     if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
           // ADD A JACKPOT NOTIFICATION
-          winTotal = ((v[w[0]] * 5) * 10);
-          balance = balance + winTotal;
+          winTotal = ((v[w[0]] * 5) * 5);
+          balance += winTotal;
           winnerEl.innerHTML = winTotal;
-          console.log('Jackpot, you won', winTotal)
+          console.log('Dragon 5-in-a-row jackpot! You won', winTotal)
           return;
         } else {
           winTotal = ((v[w[0]] * 5) * 3);
-          balance = balance + winTotal;
+          balance += winTotal;
           winnerEl.innerText = winTotal;
-          console.log('five in row one', 'you won ' + winTotal);
+          console.log('5-in-a-row! You won', winTotal);
           return;
       }
     }
@@ -191,138 +190,144 @@ function checkWinner() {
     } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
+          // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
           winTotal = ((v[w[0]] * 4) * 2);
-          balance = balance + winTotal;
+          balance += winTotal;
           winnerEl.innerHTML = winTotal;
-          console.log('Jackpot, you won', winTotal)
+          console.log('4 dragons! You won', winTotal)
           return;
         } else {
-        balance = 100;
-        winTotal = 100;
-        winnerEl.innerText = winTotal;
-        console.log('four in row one', 'you won ' + winTotal);
-        return;
+          winTotal = (v[w[0]] * 4);
+          balance += winTotal
+          winnerEl.innerText = winTotal;
+          console.log('4-in-a-row! You won', winTotal);
+          return;
         }
       }
+    // ROW ONE 3 IN A ROW
     } else if (w[0] === w[1] && w[1] === w[2]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
           winTotal = v[w[0]] * 3;
           balance += winTotal;
           winnerEl.innerHTML = winTotal;
-          console.log('Jackpot, you won', winTotal)
+          console.log('3 dragons! You won', winTotal)
           return;
         } else {
-        balance = 50;
-        winTotal = 50;
+        winTotal = v[w[0]] * 3;
+        balance += winTotal;
         winnerEl.innerText = winTotal;
-        console.log('three in row one', 'you won ' + winTotal);
+        console.log('3-in-a-row! You won', winTotal);
         return;
         }
       }
     }
   }
 
-    //CHECK ROW 2
-  // function rowTwoCheck() {
-  //   if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
-  //     if(true) {
-  //       if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
-  //         balance += 1000;
-  //         winTotal += 1000;
-  //         winnerEl.innerHTML = winTotal;
-  //         console.log('Jackpot, you won', winTotal)
-  //         return;
-  //       } else {
-  //       balance += 100;
-  //       winTotal += 100;
-  //       winnerEl.innerText = winTotal;
-  //       console.log('five in row two', 'you won ' + winTotal);
-  //     }
-  //   }
-  //     } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-  //     if(true) {
-  //       if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-  //         balance += 500;
-  //         winTotal += 500
-  //         winnerEl.innerHTML = winTotal;
-  //         console.log('Jackpot, you won', winTotal)
-  //         return;
-  //       } else {
-  //       balance += 100;
-  //       winTotal += 100;
-  //       winnerEl.innerText = winTotal;
-  //       console.log('four in row two', 'you won ' + winTotal);
-  //       }
-  //     }
-  //     } else if (w[5] === w[6] && w[6] === w[7]) {
-  //       if(true) {
-  //         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
-  //           balance += 250;
-  //           winTotal += 250;
-  //           winnerEl.innerHTML = winTotal;
-  //           console.log('Jackpot, you won', winTotal)
-  //           return;
-  //         } else {
-  //         balance += 50;
-  //         winTotal += 50;
-  //         winnerEl.innerText = winTotal;
-  //         console.log('three in row two', 'you won ' + winTotal);
-  //       }
-  //     }
-  //   }
-  // }
+  // CHECK ROW 2
+  function rowTwoCheck() {
+    if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
+      if(true) {
+        if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
+          // ADD A JACKPOT NOTIFICATION
+          winTotal = ((v[w[5]] * 5) * 5);
+          balance = balance + winTotal;
+          winnerEl.innerHTML = winTotal;
+          console.log('Dragon 5-in-a-row jackpot! You won', winTotal)
+          return;
+        } else {
+          winTotal = ((v[w[5]] * 5) * 3);
+          balance = balance + winTotal;
+          winnerEl.innerText = winTotal;
+          console.log('5-in-a-row! You won', winTotal);
+          return;
+        }
+      }
+    } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
+      if(true) {
+        if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
+          winTotal = ((v[w[5]] * 4) * 2);
+          balance = balance + winTotal;
+          winnerEl.innerHTML = winTotal;
+          console.log('4 dragons! You won', winTotal)
+          return;
+        } else {
+          winTotal = (v[w[5]] * 4);
+          balance += winTotal
+        winnerEl.innerText = winTotal;
+        console.log('4-in-a-row! You won', winTotal);
+      }
+      }
+    } else if (w[5] === w[6] && w[6] === w[7]) {
+      if(true) {
+          if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
+            winTotal = v[w[5]] * 3;
+            balance += winTotal;
+            winnerEl.innerHTML = winTotal;
+            console.log('3 dragons! You won', winTotal)
+            return;
+        } else {
+          winTotal = v[w[5]] * 3;
+          balance += winTotal;
+          winnerEl.innerText = winTotal;
+          console.log('3-in-a-row! You won', winTotal);
+        }
+      }
+    }
+  }
 
-    //CHECK ROW 3
-    // FIVE IN A ROW, IF FALSE IT GOES TO 4 IN A ROW
-//   function rowThreeCheck() {
-//     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-//       if(true) {
-//         if(w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-//           balance += 1000;
-//           winTotal += 1000
-//           winnerEl.innerHTML = winTotal;
-//           console.log('Jackpot, you won', winTotal)
-//           return;
-//         } else {
-//         balance += 100;
-//         winTotal += 100;
-//         winnerEl.innerText = winTotal;
-//         console.log('five in row three', 'you won ' + winTotal);
-//       }
-//     }
-//     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-//       if(true) {
-//         if(w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-//           balance += 500;
-//           winTotal += 500;
-//           console.log('Jackpot, you won', winTotal)
-//           return;
-//         } else {
-//         balance += 100;
-//         winTotal += 100;
-//         winnerEl.innerText = winTotal;
-//         console.log('four in row three', 'you won ' + winTotal);
-//       }  
-//     }
-//     } else if (w[10] === w[11] && w[11] === w[12]) {
-//       if(true) {
-//         if(w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
-//           balance += 250;
-//           winTotal += 250;
-//           console.log('Jackpot, you won', winTotal);
-//         return;
-//       } else {
-//         balance += 50;
-//         winTotal += 50;
-//         winnerEl.innerText = winTotal;
-//         console.log('three in row three', 'you won ' + winTotal);
-//         }
-//       }
-//     } else {
-//       console.log(winTotal, balance)
-//     }
-//   }
+  // CHECK ROW 3
+  // ROW THREE 5 IN A ROW
+  function rowThreeCheck() {
+    if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
+      if(true) {
+        if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
+          winTotal = ((v[w[10]] * 5) * 5);
+          balance += winTotal;
+          winnerEl.innerHTML = winTotal;
+          console.log('Dragon 5-in-a-row jackpot! You won', winTotal)
+          return;
+        } else {
+        winTotal = ((v[w[10]] * 5) * 3);
+        balance += winTotal;
+        winnerEl.innerText = winTotal;
+        console.log('5-in-a-row! You won', winTotal);
+      }
+    }
+    // ROW THREE 4 IN A ROW
+    } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
+      if(true) {
+        if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
+          winTotal = ((v[w[10]] * 4) * 2);
+          balance += winTotal;
+          console.log('4 dragons! You won ', winTotal)
+          return;
+        } else {
+        winTotal = (v[w[10]] * 4);
+        balance += winTotal
+        winnerEl.innerText = winTotal;
+        console.log('4-in-a-row! You won ',winTotal);
+      }  
+    }
+    // ROW THREE 3 IN A ROW
+    } else if (w[10] === w[11] && w[11] === w[12]) {
+      if(true) {
+        if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
+          winTotal = v[w[10]] * 3;
+          balance += winTotal;
+          winnerEl.innerHTML = winTotal;
+          console.log('3 dragons! You won ', winTotal)
+        return;
+      } else {
+        winTotal = v[w[10]] * 3;
+        balance += winTotal;
+        winnerEl.innerText = winTotal;
+        console.log('3-in-a-row! You won ', winTotal);
+        }
+      }
+    }
+  }
+    console.log(balance)
 };
 
 function betLogic() {
@@ -332,223 +337,6 @@ function betLogic() {
   betTotal
   balace
 }
-
-
-  // function checkWinner() {
-  //   let w = winArray
-    
-  //   // THREE IN A ROW WINNERS
-  //   if (w[0] === w[1] && w[1] === w[2]) {
-  //     if(true) {
-  //       balance += 50;
-  //       winTotal = 50;
-  //       console.log('three in row one', balance,'you won ' + winTotal);
-  //     }
-  //   } else if (w[5] === w[6] && w[6] === w[7]) {
-  //     if(true) {
-  //       balance += 50;
-  //       winTotal = 50;
-  //       console.log('three in row two', balance, 'you won ' + winTotal);
-  //     }
-  //   } else if (w[10] === w[11] && w[11] === w[12]) {
-  //     if(true) {
-  //       balance += 50;
-  //       winTotal = 50;
-  //       console.log('three in row three', balance, 'you won ' + winTotal);
-  //     }
-  
-  //   // FOUR IN A ROW WINNERS
-  //   } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
-  //     if(true) {
-  //       balance += 100;
-  //       winTotal = 100;
-  //       console.log('four in row one', balance, 'you won ' + winTotal);
-  //     }
-  //   }else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-  //     if(true) {
-  //       balance += 100;
-  //       winTotal = 100;          
-  //       console.log('four in row two', balance, 'you won ' + winTotal);
-  //     }
-  //   } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-  //       if(true) {
-  //         balance += 100;
-  //         winTotal = 100;          
-  //         console.log('four in row three', balance, 'you won ' + winTotal);
-  //     }
-  
-  //   // FIVE IN A ROW WINNERS
-  //   } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
-  //     if(true) {
-  //       balance += 200;
-  //       winTotal = 200;
-  //       console.log('five in row one', balance, 'you won ' + winTotal);
-  //     }
-  //   } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
-  //     if(true) {
-  //       balance += 200;
-  //       winTotal = 200;
-  //       console.log('five in row two', balance, 'you won ' + winTotal);
-  //     }
-  //   } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-  //     if(true) {
-  //       balance += 100;
-  //       winTotal = 200;
-  //       console.log('five in row three', balance, 'you won ' + winTotal);
-  //     }
-  //   }
-  // };
-          
-// function checkWinner() {
-//   let w = winArray
-//   if (winArray[0] === winArray[1] && winArray[1] === winArray[2]) {
-//     winTotal += 50;
-//     console.log('three row one', balance, winTotal);
-//   }
-//   if (winArray[5] === winArray[6] && winArray[6] === winArray[7]) {
-//     balance = balance + 50;
-//     winTotal += 50;
-//     console.log('three row two', balance, winTotal);
-//   }
-//   if (winArray[10] === winArray[11] && winArray[11] === winArray[12]) {
-//     balance = balance + 50;
-//     winTotal += 50;
-//     console.log('three row three', balance, winTotal);
-//   }
-//   if (winArray[0] === winArray[1] && winArray[1] === winArray[2] && winArray[2] === winArray[3]) {
-//     winTotal += 50;
-//     console.log('four row one', balance, winTotal);
-//   }
-//   if (winArray[5] === winArray[6] && winArray[6] === winArray[7] && winArray[7] === winArray[8]) {
-//     balance = balance + 50;
-//     winTotal += 50;
-//     console.log('four row two', balance, winTotal);
-//   }
-//   if (winArray[10] === winArray[11] && winArray[11] === winArray[12] && winArray[12] === winArray[13]) {
-//     balance = balance + 50;
-//     winTotal += 50;
-//     console.log('four row three', balance, winTotal);
-//   }
-// };   
-    
-    
-    
-    
-// function checkJackpotWinner() {
-//     let w = winArray;
-//     let d;
-//     if(d === 5) {
-//     // FIVE IN A ROW WINNERS
-//     if (d === w[0] && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
-//       if(true) {
-//         balance += 2000;
-//         winTotal = 2000;
-//         console.log('dragon five in row one', balance, 'you won ' + winTotal);
-//       }
-//     } else if (d === w[5] && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
-//       if(true) {
-//         balance += 2000;
-//         winTotal = 2000;
-//         console.log('dragon five in row two', balance, 'you won ' + winTotal);
-//       }
-//     } else if (d === w[10] && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-//       if(true) {
-//         balance += 1000;
-//         winTotal = 2000;
-//         console.log('dragon five in row three', balance, 'you won ' + winTotal);
-//       }
-
-//     // FOUR IN A ROW WINNERS
-//     } else if (d === w[0] && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
-//       if(true) {
-//         balance += 1000;
-//         winTotal = 1000;
-//         console.log('dragon four in row one', balance, 'you won ' + winTotal);
-//       }
-//     } else if (d === w[5] && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-//       if(true) {
-//         balance += 1000;
-//         winTotal = 1000;          
-//         console.log('dragon four in row two', balance, 'you won ' + winTotal);
-//       }
-//     } else if (d === w[10] && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-//         if(true) {
-//           balance += 1000;
-//           winTotal = 1000;          
-//           console.log('dragon four in row three', balance, 'you won ' + winTotal);
-//       }
-
-//     // THREE IN A ROW WINNERS
-//     } else if (d === w[0] && w[0] === w[1] && w[1] === w[2]) {
-//       if(true) {
-//         balance += 500;
-//         winTotal = 500;
-//         console.log('dragon three in row one', balance,'you won ' + winTotal);
-//       }
-//     } else if (d === w[5] && w[5] === w[6] && w[6] === w[7]) {
-//       if(true) {
-//         balance += 500;
-//         winTotal = 500;
-//         console.log('dragon three in row two', balance, 'you won ' + winTotal);
-//       }
-//     } else if (d === w[10] && w[10] === w[11] && w[11] === w[12]) {
-//       if(true) {
-//         balance += 500;
-//         winTotal = 500;
-//         console.log('dragon three in row three', balance, 'you won ' + winTotal);
-//       }
-//     }
-//   } else checkWinner();
-//   };
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
 
 
 
