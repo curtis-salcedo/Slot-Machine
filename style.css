@@ -6,8 +6,8 @@ body {
   height: 100vh;
   width: auto;
   display: grid;
-  
-  background-image: linear-gradient(to bottom right, green,lightgreen,greenyellow,yellow);
+  font-family: 'Carter One', cursive;
+  background-image: linear-gradient(to bottom right, rgb(4, 56, 4),rgb(19, 95, 19),rgb(17, 136, 27));
   /* grid-template-columns: 10vw auto auto 10vw;*/
   grid-template-rows: auto;
   grid-template-columns: 3vw 1fr 1fr 3vw;
@@ -15,16 +15,23 @@ body {
   "header header header" auto
   "left message rightUpper" auto
   "left body rightLower" auto
-  "footerLeft footer footerRight" auto;
+  "left footer right" auto;
+  cursor: default;
 }
 
 h1 {
   grid-area: header;
-  height: 10vmin;
-  font-size: 6vmin;
-  background-color: transparent;
-  color: rgb(155, 133, 14);
+  font-size: 12vmin;
+  /* background-color: transparent; */
+  /* color: rgb(155, 133, 14); */
   text-align: center;
+}
+
+.header {
+  background-image: linear-gradient(#ffd700, red, #ffd700);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 h2 {
@@ -32,6 +39,7 @@ h2 {
   height: 10vh;
   font-size: 3.5vmin;
   text-align: center;
+  color: rgba(255, 255, 255, 0.719);
 }
 
 .container {
@@ -42,12 +50,11 @@ h2 {
   height: auto;
   width: auto;
   padding: 1vh;
-  background-image: linear-gradient(to bottom right, rgb(4, 40, 113), rgba(0, 0, 255, 0.85),rgb(34, 138, 172), rgb(83, 117, 144));
   grid-template: repeat(3, 1fr) / repeat(5, 1fr);
   border: solid .25vh #ffd700;
   border-radius: 2vmin;
   box-shadow: 0 0 .25vh #ffd700;
-  animation: shadow-glow 2s ease-in-out infinite alternate;
+  animation: shadow-glow 4s ease-in-out infinite alternate;
   gap: .35vmin .65vmin;
 }
 
@@ -55,14 +62,17 @@ h2 {
   display: grid;
   height: auto;
   width: auto;
+  background-color: rgb(77, 47, 8);
   align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 12vmin;
-  border: .45vmin solid goldenrod;
-  border-radius: 3%;
-  background-color: rgba(195, 97, 5, 0.992);
-  animation: cell-shadow-glow 10s ease-in-out infinite alternate;
+  border-radius: 1vmin;
+  border-width: .5vmin;
+  border-style: solid;
+  /* border-image: linear-gradient(#ffd700, rgb(16, 97, 16), #ffd700) 1; */
+  border-image: linear-gradient(rgb(4, 56, 4), #ffd700, rgb(4, 56, 4)) 1;
+  animation: shadow-glow 4s ease-in-out infinite alternate;
 }
 
 footer {
@@ -71,53 +81,42 @@ footer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: brown;
   font-size: 20px;
   border: solid .25vh #ffd700;
   border-radius: 3vmin;
-}
-
-.info > h3 {
-
+  background-color: rgb(77, 47, 8);
+  color: rgba(255, 255, 255, 0.719);
 }
 
 #spin-button {
-  grid-area: footerCenter;
   color: white;
-  background-color: red;
+  background-image: radial-gradient(red, rgb(70, 16, 16));
   height: 10vh;
   width: 18vh;
   border-radius: 50%;
   border: 1vmin solid whitesmoke;
   font-size: 4.5vmin;
+  cursor: pointer;
 }
 
-/* #bet-amount {
+#spin-button:active {
+  background-image: radial-gradient(red, rgb(105, 17, 17));
+}
 
-} */
-
-/* #add-money {
-
-} */
-
-
-
-
-
-
-/* @keyframes cell-shadow-glow {
+@keyframes rotate {
   0% {
-    box-shadow: 0 0 2px #ffd700;
+    transform: rotate(0)
   }
-  80% {
-    box-shadow: 1px 1px 12px #ffd700;
+  100% {
+    transform: rotate(360deg)
   }
 }
-
 
 @keyframes shadow-glow {
   0% {
-    box-shadow: 0 0 10px #ffd700;
+    box-shadow: 0 0 2vmin #ffd700;
   }
-  50% {
-    box-shadow: 0 0 50px #ffd700; */
+  100% {
+    box-shadow: 0 0 10vmin #ffd700;
+  }
+}

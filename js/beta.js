@@ -174,9 +174,9 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
           // ADD A JACKPOT NOTIFICATION
-          jackpot
+          jackpot()
           win = ((v[w[0]] * 5) * 5);
-          renderMessage(win, c[w[0]], c[w[0]], true)
+          renderMessage(win, c[w[0]], c[w[0]])
           winTotal += win;
           balance += win;
         } else {
@@ -193,6 +193,7 @@ function checkWinner() {
           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
           win = ((v[w[0]] * 4) * 2);
           renderMessage(win, c[w[0]])
+
           winTotal += win;
           balance += win;
         } else {
@@ -211,15 +212,12 @@ function checkWinner() {
           winTotal += win;
           balance += win;
         } else {
+          let winAnimation = [w[0],w[1],w[2]]
+          
           win = v[w[0]] * 3;
           renderMessage(win, c[w[0]])
           winTotal += win;
           balance += win;
-          // winnerEl.innerText = winTotal;
-          // messageEl.innerText = 
-          //   `3-in-a-row!
-          //   You won ${winTotal}`
-          // totalWin();
         }
       }
     }
@@ -332,16 +330,10 @@ function checkWinner() {
           renderMessage(win, c[w[10]])
           winTotal += win;
           balance += winTotal;
-        // winnerEl.innerText = winTotal;
-        // messageEl.innerText = 
-        //     `3-in-a-row!
-        //     You won ${winTotal}`
-        //     totalWin();
         }
       }
     }
   }
-    // console.log(balance)
 };
 
 
@@ -356,19 +348,13 @@ function winMessage(win, char) {
   const winMessageEl = document.createElement('p');
   winMessageEl.innerText = `You won ${win}! with ${char}`;
   messageEl.appendChild(winMessageEl);
+  winMessageEl.style.animation = "rotate 1s"
 }
 
 function jackpot() {
-  phaseOne()
-  return;
+
 }
 
-function phaseOne() {
-  bodyEl.innerText = `${CHARACTERS[5]}`;
-  bodyEl.style.justifyContent = 'center';
-  bodyEl.style.alignContent = 'center';
-  bodyEl.style.fontSize = '50vmin';
-}
 
 
 
