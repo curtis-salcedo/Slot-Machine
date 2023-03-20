@@ -8,26 +8,24 @@ body {
   display: grid;
   font-family: 'Carter One', cursive;
   background-image: linear-gradient(to bottom right, rgb(4, 56, 4),rgb(19, 95, 19),rgb(17, 136, 27));
-  /* grid-template-columns: 10vw auto auto 10vw;*/
   grid-template-rows: auto;
   grid-template-columns: 3vw 1fr 1fr 3vw;
   grid:
   "header header header" auto
-  "left message rightUpper" auto
-  "left body rightLower" auto
+  "left h1 right" auto
+  "left h2 right" auto
+  "left message right" auto
+  "left body right" auto
   "left footer right" auto;
   cursor: default;
 }
 
 h1 {
+  height: auto;
   grid-area: header;
-  font-size: 12vmin;
-  /* background-color: transparent; */
-  /* color: rgb(155, 133, 14); */
+  margin-top: -3vmin;
+  font-size: 10vmin;
   text-align: center;
-}
-
-.header {
   background-image: linear-gradient(#ffd700, red, #ffd700);
   background-size: 100%;
   -webkit-background-clip: text;
@@ -36,7 +34,8 @@ h1 {
 
 h2 {
   grid-area: message;
-  height: 10vh;
+  margin-top: -10vmin;
+  height: auto;
   font-size: 3.5vmin;
   text-align: center;
   color: rgba(255, 255, 255, 0.719);
@@ -49,11 +48,10 @@ h2 {
   display: grid;
   height: auto;
   width: auto;
-  padding: 1vh;
+  padding: 1vmin;
   grid-template: repeat(3, 1fr) / repeat(5, 1fr);
-  border: solid .25vh #ffd700;
+  border: solid #ffd700;
   border-radius: 2vmin;
-  box-shadow: 0 0 .25vh #ffd700;
   animation: shadow-glow 4s ease-in-out infinite alternate;
   gap: .35vmin .65vmin;
 }
@@ -67,7 +65,6 @@ h2 {
   justify-content: center;
   text-align: center;
   font-size: 12vmin;
-  border-radius: 1vmin;
   border-width: .5vmin;
   border-style: solid;
   /* border-image: linear-gradient(#ffd700, rgb(16, 97, 16), #ffd700) 1; */
@@ -79,13 +76,22 @@ footer {
   grid-area: footer;
   display: grid;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  font-size: 20px;
+  font-size: 3vmin;
+  margin-top: 3.25vmin;
   border: solid .25vh #ffd700;
   border-radius: 3vmin;
   background-color: rgb(77, 47, 8);
   color: rgba(255, 255, 255, 0.719);
+}
+
+#balance-text {
+  padding-left: 5vmin;
+}
+
+#win-amount {
+  padding-right: 5vmin;
 }
 
 #spin-button {
@@ -103,6 +109,8 @@ footer {
   background-image: radial-gradient(red, rgb(105, 17, 17));
 }
 
+
+
 @keyframes rotate {
   0% {
     transform: rotate(0)
@@ -111,6 +119,7 @@ footer {
     transform: rotate(360deg)
   }
 }
+
 
 @keyframes shadow-glow {
   0% {

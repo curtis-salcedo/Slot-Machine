@@ -79,7 +79,7 @@ const divEls = document.querySelectorAll('div');
 const messageEl = document.querySelector('h2');
 const balanceEl = document.getElementById('balance')
 balanceEl.innerText = balance
-const winnerEl = document.getElementById('win-amount')
+const winnerAmountEl = document.getElementById('win-amount')
 
 
 /*----- functions -----*/
@@ -111,12 +111,13 @@ function renderMessage(win, char, dragon, jp) {
     dragonMessage(win, char, dragon)
   } else 
     winMessage(win, char)
+    betLogic(win)
+
 }
 
 // THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
 function spinReel() {
   winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  winnerEl.innerText = 0;
   betAmount = balance -= 10;
   balanceEl.innerText = balance;
   checkWinner();
@@ -149,18 +150,17 @@ function renderScreen() {
       const getChars = CHARACTERS[cell];
       divEls[index].innerText = getChars;
     })
-    // checkJackpot();
-    // checkWinner();
   })
 };
 
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
 function checkWinner() {
+  
   const w = winArray;
   const v = VALUES;
   const c = CHARACTERS;
   let win;
-  messageEl.innerText = 'Spin to win!'
+  messageEl.innerText = ''
   // CHECK WINNER FUNCTIONS
   rowOneCheck()
   rowTwoCheck()
@@ -174,16 +174,13 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
           // ADD A JACKPOT NOTIFICATION
-          jackpot()
           win = ((v[w[0]] * 5) * 5);
+          betLogic(win)
           renderMessage(win, c[w[0]], c[w[0]])
-          winTotal += win;
-          balance += win;
         } else {
           win = ((v[w[0]] * 5) * 3);
+          betLogic(win)
           renderMessage(win, c[w[0]])
-          winTotal += win;
-          balance += win;
         }
     }
     // ROW ONE 4 IN A ROW
@@ -192,15 +189,12 @@ function checkWinner() {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
           win = ((v[w[0]] * 4) * 2);
+          betLogic(win)
           renderMessage(win, c[w[0]])
-
-          winTotal += win;
-          balance += win;
         } else {
           renderMessage(win, c[w[0]])
+          betLogic(win)
           win = (v[w[0]] * 4);
-          winTotal += win;
-          balance += win;
         }
       }
     // ROW ONE 3 IN A ROW
@@ -208,16 +202,12 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
           win = v[w[0]] * 3;
+          betLogic(win)
           renderMessage(win, c[w[0]], c[w[0]])
-          winTotal += win;
-          balance += win;
-        } else {
-          let winAnimation = [w[0],w[1],w[2]]
-          
+        } else {         
           win = v[w[0]] * 3;
+          betLogic(win)
           renderMessage(win, c[w[0]])
-          winTotal += win;
-          balance += win;
         }
       }
     }
@@ -232,7 +222,7 @@ function checkWinner() {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
           // ADD A JACKPOT NOTIFICATION
           win = ((v[w[5]] * 5) * 5);
-          renderMessage(win, c[w[5]])
+          renderMessage(win, c[w[5]], c[w[5]])
           winTotal += win;
           balance += win;
         } else {
@@ -272,10 +262,6 @@ function checkWinner() {
           renderMessage(win, c[w[5]])
           winTotal += win;
           balance += win;
-          // winnerEl.innerText = winTotal;
-          // messageEl.innerText = 
-          // `3-in-a-row!
-          // You won ${winTotal}`
         }
       }
     }
@@ -289,7 +275,7 @@ function checkWinner() {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
           win = ((v[w[10]] * 5) * 5);
-          renderMessage(win, c[w[10]])
+          renderMessage(win, c[w[10]], c[w[10]])
           winTotal += win;
           balance += winTotal;
           return;
@@ -347,15 +333,16 @@ function dragonMessage(win, char, dragon) {
 function winMessage(win, char) {
   const winMessageEl = document.createElement('p');
   winMessageEl.innerText = `You won ${win}! with ${char}`;
-  messageEl.appendChild(winMessageEl);
+  winMessageEl.style.fontSize = "2.25vmin"
   winMessageEl.style.animation = "rotate 1s"
+  messageEl.appendChild(winMessageEl);
 }
 
-function jackpot() {
-
+function betLogic(w) {
+  winTotal += w;
+  balance += w;
+  winnerAmountEl.innerText = winTotal;
 }
-
-
 
 
 
@@ -384,13 +371,13 @@ function jackpot() {
   // }
 // }
 
-function betLogic() {
-  // USE THE BET AMOUNT TO MULTIPLY THE VALUE OF EACH CHARACTER VALUE
-  // BET AMOUNT IS LOCATED IN THE spinReel() FUCNTION
-  betAmount = balance -= 10;
-  betTotal
-  balace
-}
+// function betLogic() {
+//   // USE THE BET AMOUNT TO MULTIPLY THE VALUE OF EACH CHARACTER VALUE
+//   // BET AMOUNT IS LOCATED IN THE spinReel() FUCNTION
+//   betAmount = balance -= 10;
+//   betTotal
+//   balace
+// }
 
 
 
