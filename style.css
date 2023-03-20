@@ -4,93 +4,84 @@
 
 body {
   height: 100vh;
-  width: 100vw;
-  margin: 0;
+  width: auto;
   display: grid;
   background-image: linear-gradient(to bottom right, green,lightgreen,greenyellow,yellow);
-  /* grid-template-columns: 50px auto auto 10px;
-  grid-template-rows: 100px 90px auto 40px; */
-  grid-template-columns: 10vw auto auto 10vw;
-  grid-template-rows: 12vmin 10vh auto 20vh;
-}
-
-/* header {
-  display: flex;
-  justify-content: flex-start;
-  background-color: transparent;
-} */
-
-header:hover {
-  color:#ffd700;
+  /* grid-template-columns: 10vw auto auto 10vw;*/
+  grid-template-rows: auto;
+  grid-template-columns: 3vw 1fr 1fr 3vw;
+  grid:
+  "header header header" auto
+  "left message rightUpper" auto
+  "left body rightLower" auto
+  "footerLeft footer footerRight" auto;
 }
 
 h1 {
+  grid-area: header;
   height: 10vmin;
   font-size: 6vmin;
   background-color: transparent;
   color: rgb(155, 133, 14);
   text-align: center;
-  grid-column: span 4;
-  grid-row: 1;
 }
 
 h2 {
+  grid-area: message;
   height: 10vh;
   font-size: 3.5vmin;
   text-align: center;
-  grid-row: 2;
-  grid-column: span 4;
 }
 
 .container {
+  grid-area: body;
+  justify-self: center;
+  align-self: center;
   display: grid;
-  height: 80vmin;
-  width: 80vmin;
-  padding: .75vh;
+  height: auto;
+  width: auto;
+  padding: 1vh;
   background-image: linear-gradient(to bottom right, rgb(4, 40, 113), rgba(0, 0, 255, 0.85),rgb(34, 138, 172), rgb(83, 117, 144));
   grid-template: repeat(3, 1fr) / repeat(5, 1fr);
-  grid-column: 2/3;
-  grid-row: 3;
   border: solid .25vh #ffd700;
-  border-radius: 3vmin;
+  border-radius: 2vmin;
   box-shadow: 0 0 .25vh #ffd700;
   animation: shadow-glow 2s ease-in-out infinite alternate;
-  justify-content: center;
+  gap: .35vmin .65vmin;
 }
 
 .container > .cells {
-  height: 18vh;
-  width: 15vw;
-  font-size: 13vmin;
-  margin: .25vh;
   display: grid;
+  height: auto;
+  width: auto;
   align-items: center;
-  text-align: center;
   justify-content: center;
-  border: .35vh solid goldenrod;
-  animation: cell-shadow-glow 10s ease-in-out infinite alternate;
-  background-color: rgba(195, 97, 5, 0.992);
+  text-align: center;
+  font-size: 12vmin;
+  border: .45vmin solid goldenrod;
   border-radius: 3%;
-  padding-bottom: 2vmin;
+  background-color: rgba(195, 97, 5, 0.992);
+  animation: cell-shadow-glow 10s ease-in-out infinite alternate;
 }
 
-.info {
-  height: 20vmin;
+footer {
+  grid-area: footer;
+  display: grid;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  grid-row: 5;
-  grid-column: span 4;
-  margin-top: -15vh;
   background-color: brown;
   font-size: 20px;
+  border: solid .25vh #ffd700;
+  border-radius: 3vmin;
 }
 
 .info > h3 {
-  margin-right: .25vh;
+
 }
 
 #spin-button {
+  grid-area: footerCenter;
   color: white;
   background-color: red;
   height: 10vh;

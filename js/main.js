@@ -214,10 +214,10 @@ function checkWinner() {
           console.log('3 dragons! You won', winTotal)
           return;
         } else {
-        winTotal = v[w[0]] * 3;
-        balance += winTotal;
-        winnerEl.innerText = winTotal;
-        console.log('3-in-a-row! You won', winTotal);
+          winTotal = v[w[0]] * 3;
+          balance += winTotal;
+          winnerEl.innerText = winTotal;
+          console.log('3-in-a-row! You won', winTotal);
         return;
         }
       }
@@ -226,6 +226,8 @@ function checkWinner() {
 
   // CHECK ROW 2
   function rowTwoCheck() {
+
+    // ROW TWO 5 IN A ROW
     if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
       if(true) {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
@@ -243,6 +245,8 @@ function checkWinner() {
           return;
         }
       }
+
+    // ROW TWO 4 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
@@ -254,10 +258,11 @@ function checkWinner() {
         } else {
           winTotal = (v[w[5]] * 4);
           balance += winTotal
-        winnerEl.innerText = winTotal;
-        console.log('4-in-a-row! You won', winTotal);
+          winnerEl.innerText = winTotal;
+          console.log('4-in-a-row! You won', winTotal);
+        }
       }
-      }
+    // ROW TWO 3 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7]) {
       if(true) {
           if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
@@ -267,18 +272,19 @@ function checkWinner() {
             console.log('3 dragons! You won', winTotal)
             return;
         } else {
-          winTotal = v[w[5]] * 3;
-          balance += winTotal;
-          winnerEl.innerText = winTotal;
-          console.log('3-in-a-row! You won', winTotal);
+            winTotal = v[w[5]] * 3;
+            balance += winTotal;
+            winnerEl.innerText = winTotal;
+            console.log('3-in-a-row! You won', winTotal);
         }
       }
     }
   }
 
   // CHECK ROW 3
-  // ROW THREE 5 IN A ROW
   function rowThreeCheck() {
+
+    // ROW THREE 5 IN A ROW
     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
@@ -294,6 +300,7 @@ function checkWinner() {
         console.log('5-in-a-row! You won', winTotal);
       }
     }
+
     // ROW THREE 4 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
       if(true) {
@@ -309,6 +316,7 @@ function checkWinner() {
         console.log('4-in-a-row! You won ',winTotal);
       }  
     }
+
     // ROW THREE 3 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12]) {
       if(true) {
