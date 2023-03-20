@@ -6,6 +6,7 @@ body {
   height: 100vh;
   width: auto;
   display: grid;
+  
   background-image: linear-gradient(to bottom right, green,lightgreen,greenyellow,yellow);
   /* grid-template-columns: 10vw auto auto 10vw;*/
   grid-template-rows: auto;
