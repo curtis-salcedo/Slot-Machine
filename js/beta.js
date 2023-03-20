@@ -39,7 +39,8 @@ let balance = 1000;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal = 0;
-let win = 0;
+let win;
+let rowWin;
 
 // AMOUNT OF CREDITS USED PER SPIN
 let betAmount = 10;
@@ -70,6 +71,7 @@ const combo = [
 
 
 // NAME OF THE SLOT MACHINE CELLS
+const bodyEl = document.querySelector('body');
 const screenEls = document.querySelectorAll('cells');
 const spinButtonEl = document.getElementById('spin-button');
 const cellContainer = document.querySelector('container');
@@ -94,7 +96,6 @@ function initialize() {
   let betAmount;
   // spinReel();
   renderScreen();
-  renderMessage();
   // USED FOR FREE SPINS IF POSSIBLE
   // countSpins();
 };
@@ -104,14 +105,13 @@ function popUp () {
   //   alert('Click "OK" confirm if over the age of 18 years old, otherwise please do not enter.')})
   //   return;
   };
-  
-// USED TO TELL PLAYER THEY WON ANY AMOUNT OF MONEY
-// REPORT THE WINNINGS BELOW "WIN TOTAL" AREA
-function renderMessage() {
-  // START UP ANIMATION
-  // betLogic();
-  function renderStartMessage() {}
-};
+
+function renderMessage(win, char, dragon, jp) {
+  if (dragon === `${dragon}`) {
+    dragonMessage(win, char, dragon)
+  } else 
+    winMessage(win, char)
+}
 
 // THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
 function spinReel() {
@@ -156,14 +156,15 @@ function renderScreen() {
 
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
 function checkWinner() {
-  const w = winArray
-  const v = VALUES
-  let win = 0;
-
+  const w = winArray;
+  const v = VALUES;
+  const c = CHARACTERS;
+  let win;
+  messageEl.innerText = 'Spin to win!'
   // CHECK WINNER FUNCTIONS
-  rowOneCheck();
-  rowTwoCheck();
-  rowThreeCheck();
+  rowOneCheck()
+  rowTwoCheck()
+  rowThreeCheck()
 
 
   //CHECK ROW 1
@@ -173,23 +174,16 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
           // ADD A JACKPOT NOTIFICATION
+          jackpot
           win = ((v[w[0]] * 5) * 5);
-          winTotal = winTotal + win;
+          renderMessage(win, c[w[0]], c[w[0]], true)
+          winTotal += win;
           balance += win;
-          winnerEl.innerHTML = win;
-          messageEl.innerText = 
-            `5-Dragons-in-a-row  jackpot!
-            You won ${winTotal}`
-          totalWin();
         } else {
           win = ((v[w[0]] * 5) * 3);
-          winTotal = winTotal + win;
+          renderMessage(win, c[w[0]])
+          winTotal += win;
           balance += win;
-          winnerEl.innerText = win;
-          messageEl.innerText = 
-            `5-in-a-row!
-            You won ${winTotal}`
-          totalWin();
         }
     }
     // ROW ONE 4 IN A ROW
@@ -198,22 +192,14 @@ function checkWinner() {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
           win = ((v[w[0]] * 4) * 2);
-          winTotal = winTotal + win;
+          renderMessage(win, c[w[0]])
+          winTotal += win;
           balance += win;
-          winnerEl.innerHTML = win;
-          messageEl.innerText = 
-            `4-Dragons-in-a-row!
-            You won ${winTotal}`
-          totalWin();
         } else {
+          renderMessage(win, c[w[0]])
           win = (v[w[0]] * 4);
-          winTotal = winTotal + win;
-          balance += win
-          winnerEl.innerText = win;
-          messageEl.innerText = 
-            `4-in-a-row!
-            You won ${winTotal}`
-          totalWin();
+          winTotal += win;
+          balance += win;
         }
       }
     // ROW ONE 3 IN A ROW
@@ -221,22 +207,19 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
           win = v[w[0]] * 3;
-          winTotal = winTotal + win;
+          renderMessage(win, c[w[0]], c[w[0]])
+          winTotal += win;
           balance += win;
-          winnerEl.innerHTML = win;
-          messageEl.innerText = 
-            `3-Dragons-in-a-row!
-            You won ${winTotal}`
-          totalWin();
         } else {
           win = v[w[0]] * 3;
-          winTotal = winTotal + win;
+          renderMessage(win, c[w[0]])
+          winTotal += win;
           balance += win;
-          winnerEl.innerText = win;
-          messageEl.innerText = 
-            `3-in-a-row!
-            You won ${winTotal}`
-          totalWin();
+          // winnerEl.innerText = winTotal;
+          // messageEl.innerText = 
+          //   `3-in-a-row!
+          //   You won ${winTotal}`
+          // totalWin();
         }
       }
     }
@@ -251,22 +234,14 @@ function checkWinner() {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
           // ADD A JACKPOT NOTIFICATION
           win = ((v[w[5]] * 5) * 5);
-          winTotal = winTotal + win;
-          balance = balance + winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-          `5-Dragons-in-a-row  jackpot!
-          You won ${winTotal}`
-          totalWin()
+          renderMessage(win, c[w[5]])
+          winTotal += win;
+          balance += win;
         } else {
-          win = ((v[w[5]] * 5) * 3);
-          balance = balance + winTotal;
-          winTotal = winTotal + win;
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `5-in-a-row!
-            You won ${winTotal}`
-          totalWin()
+          rowWin = ((v[w[5]] * 5) * 3);
+          renderMessage(win, c[w[5]])
+          winTotal += win;
+          balance += win;
         }
       }
 
@@ -275,42 +250,34 @@ function checkWinner() {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
           win = ((v[w[5]] * 4) * 2);
-          balance = balance + winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `4-Dragons-in-a-row!
-            You won ${winTotal}`
-          totalWin()
+          renderMessage(win, c[w[5]])
+          winTotal += win;
+          balance += win;
         } else {
           win = (v[w[5]] * 4);
-          balance += winTotal
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `4-in-a-row!
-            You won ${winTotal}`;
-            totalWin()
+          renderMessage(win, c[w[5]])
+          winTotal += win;
+          balance += win;
         }
       }
 
     // ROW TWO 3 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7]) {
       if(true) {
-          if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
-            winTotal = v[w[5]] * 3;
-            balance += winTotal;
-            winnerEl.innerHTML = winTotal;
-            messageEl.innerText = 
-            `3-Dragons-in-a-row!
-            You won ${winTotal}`
-            totalWin();
+        if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
+          win = v[w[5]] * 3;
+          renderMessage(win, c[w[5]])
+          winTotal += win;
+          balance += win;
         } else {
-            winTotal = v[w[5]] * 3;
-            balance += winTotal;
-            winnerEl.innerText = winTotal;
-            messageEl.innerText = 
-            `3-in-a-row!
-            You won ${winTotal}`
-            totalWin();
+          win = v[w[5]] * 3;
+          renderMessage(win, c[w[5]])
+          winTotal += win;
+          balance += win;
+          // winnerEl.innerText = winTotal;
+          // messageEl.innerText = 
+          // `3-in-a-row!
+          // You won ${winTotal}`
         }
       }
     }
@@ -323,40 +290,32 @@ function checkWinner() {
     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-          winTotal = ((v[w[10]] * 5) * 5);
+          win = ((v[w[10]] * 5) * 5);
+          renderMessage(win, c[w[10]])
+          winTotal += win;
           balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `5-Dragons-in-a-row  jackpot!
-            You won ${winTotal}`
           return;
         } else {
-        winTotal = ((v[w[10]] * 5) * 3);
-        balance += winTotal;
-        winnerEl.innerText = winTotal;
-        messageEl.innerText = 
-            `5-in-a-row!
-            You won ${winTotal}`
+          win = ((v[w[10]] * 5) * 3);
+          renderMessage(win, c[w[10]])
+          winTotal += win;
+          balance += winTotal;
+        }
       }
-    }
 
     // ROW THREE 4 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-          winTotal = ((v[w[10]] * 4) * 2);
+          win = ((v[w[10]] * 4) * 2);
+          renderMessage(win, c[w[10]])
+          winTotal += win;
           balance += winTotal;
-          messageEl.innerText = 
-            `4-Dragons-in-a-row!
-            You won ${winTotal}`
-          return;
         } else {
-        winTotal = (v[w[10]] * 4);
-        balance += winTotal
-        winnerEl.innerText = winTotal;
-        messageEl.innerText = 
-            `4-in-a-row!
-            You won ${winTotal}`
+          win = (v[w[10]] * 4);
+          renderMessage(win, c[w[10]])
+          winTotal += win;
+          balance += winTotal;
       }  
     }
 
@@ -364,33 +323,80 @@ function checkWinner() {
     } else if (w[10] === w[11] && w[11] === w[12]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
-          winTotal = v[w[10]] * 3;
+          win = v[w[10]] * 3;
+          renderMessage(win, c[w[10]])
+          winTotal += win;
           balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `3-Dragons-in-a-row!
-            You won ${winTotal}`
-          return;
       } else {
-        winTotal = v[w[10]] * 3;
-        balance += winTotal;
-        winnerEl.innerText = winTotal;
-        messageEl.innerText = 
-            `3-in-a-row!
-            You won ${winTotal}`
+          win = v[w[10]] * 3;
+          renderMessage(win, c[w[10]])
+          winTotal += win;
+          balance += winTotal;
+        // winnerEl.innerText = winTotal;
+        // messageEl.innerText = 
+        //     `3-in-a-row!
+        //     You won ${winTotal}`
+        //     totalWin();
         }
       }
     }
   }
-    console.log(balance)
+    // console.log(balance)
 };
 
-function totalWin() {
-  totalWinAmount = winTotal
+
+
+function dragonMessage(win, char, dragon) {
+  const dragonMessage = document.createElement('p');
+  dragonMessage.innerText = `${dragon} let you win ${win}!`;
+  messageEl.appendChild(dragonMessage);
+}
+
+function winMessage(win, char) {
   const winMessageEl = document.createElement('p');
-  winMessageEl.innerText = `${totalWinAmount}`;
+  winMessageEl.innerText = `You won ${win}! with ${char}`;
   messageEl.appendChild(winMessageEl);
 }
+
+function jackpot() {
+  phaseOne()
+  return;
+}
+
+function phaseOne() {
+  bodyEl.innerText = `${CHARACTERS[5]}`;
+  bodyEl.style.justifyContent = 'center';
+  bodyEl.style.alignContent = 'center';
+  bodyEl.style.fontSize = '50vmin';
+}
+
+
+
+
+
+
+
+
+// function totalWin() {
+//   if (winTotal.length > 1) {
+//     const winMessageEl = document.createElement('p');
+//     winMessageEl.innerText = 
+//     `Multi-line Win!
+//     You won ${winTotal}`;
+//     messageEl.appendChild(winMessageEl);
+//   } else {
+//     return;
+//   }
+
+  // for (let i = 0; i < win; i++) {
+  //   total = win[i];
+  //   console.log(win[i])
+  //   const winMessageEl = document.createElement('p');
+  //   winMessageEl.innerText = `${total}`;
+  //   messageEl.appendChild(winMessageEl);
+
+  // }
+// }
 
 function betLogic() {
   // USE THE BET AMOUNT TO MULTIPLY THE VALUE OF EACH CHARACTER VALUE
