@@ -123,7 +123,7 @@ function spinReel() {
     })
   }
   if (balance <= 0) {
-    alert("You're out of money, game over!")
+    alert("You're out of credits, game over!")
     spinButtonEl.style.visibility = 'hidden';
     spinButtonEl.addEventListener('click', function(){
     messageEl.innerText = "You're out of credits, add more to continue"
