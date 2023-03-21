@@ -376,13 +376,13 @@ function totalWin() {
   console.log(winTotal)
 }
 
-function betLogic() {
-  // USE THE BET AMOUNT TO MULTIPLY THE VALUE OF EACH CHARACTER VALUE
-  // BET AMOUNT IS LOCATED IN THE spinReel() FUCNTION
-  betAmount = balance -= 10;
-  betTotal
-  balace
-}
+// function betLogic() {
+//   // USE THE BET AMOUNT TO MULTIPLY THE VALUE OF EACH CHARACTER VALUE
+//   // BET AMOUNT IS LOCATED IN THE spinReel() FUCNTION
+//   betAmount = balance -= 10;
+//   betTotal
+//   balace
+// }
 
 
 

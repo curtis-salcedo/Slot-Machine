@@ -1,5 +1,3 @@
-// WILL DESIGN GAME SO IT CAN BE TRIMMED DOWN TO 3 X 3 CELLS IF NEEDED
-
 /*----- constants -----*/
 
 // WILL CREATE OBJECT WITH EACH ITEM BELOW WITH NAME, INDEX, VALUE, ETC..
@@ -30,7 +28,6 @@ let renderArray;
 let checkWinArray;
 
 // REPRESENTS THE 15 CELLS THAT HOLD VALUES TO DETERMINE WINNER
-// **MAY CHANGE NAME
 let cells;
 
 // CURRENT BALANCE THAT REACTS TO ADDING, 
@@ -38,16 +35,14 @@ let cells;
 let balance = 1000;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
-let winTotal = 0;
+let winTotal;
 let win;
-let rowWin;
 
-// AMOUNT OF CREDITS USED PER SPIN
+// CREDITS USED TO SPIN
 let betAmount = 10;
 
-// WINNING COMBONATIONS
 // **TBD ON POSSIBLE MULTI-WIN COMBOS / USER SELECTED WIN COMBO AMOUNTS
-// USING AN ARRAY OF EMPTY STRINGS TO FIND THE WINNING COMOBS USING LOOP
+// WINNING COMBONATIONS
 const combo = [
   // FOUR ACROSS WINS
   [0,1,2],
@@ -106,20 +101,20 @@ function popUp () {
   //   return;
   };
 
-function renderMessage(win, char, dragon, jp) {
+function renderMessage(win, char, dragon) {
   if (dragon === `${dragon}`) {
     dragonMessage(win, char, dragon)
   } else 
     winMessage(win, char)
-    betLogic(win)
-
 }
 
 // THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
 function spinReel() {
   winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  betAmount = balance -= 10;
+  balance -= betAmount
+  console.log(balance)
   balanceEl.innerText = balance;
+  winnerAmountEl.innerText = 0;
   checkWinner();
   if (balance < betAmount) {
     console.log("You don't have enough credits, change bet amount or add more credits to continue")
@@ -139,8 +134,6 @@ function spinReel() {
 // MASTER renderScreen() FUNCTION WITHOUT VALUES ASSOCIATED IN THE CHARACTERS OBJECT
 // CHECK THE RESULTS THAT END UP IN screenEls
 // COMPARE AGAINST THE cellArray and winningCombos FOR WINNERS
-// LOOK UP TO HIGHLIGHT WINNERS
-// POSSIBLY USED TO RESET THE screen
 function renderScreen() {
   spinButtonEl.addEventListener('click', function(){
     spinReel(); // NEED TO CALL SPINREEL IN RENDER TO MAKE SURE THE NUMBERS ARE RESET WHEN BUTTON IS PRESSED
@@ -155,7 +148,6 @@ function renderScreen() {
 
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
 function checkWinner() {
-  
   const w = winArray;
   const v = VALUES;
   const c = CHARACTERS;
@@ -192,9 +184,9 @@ function checkWinner() {
           betLogic(win)
           renderMessage(win, c[w[0]])
         } else {
-          renderMessage(win, c[w[0]])
-          betLogic(win)
           win = (v[w[0]] * 4);
+          betLogic(win)
+          renderMessage(win, c[w[0]])
         }
       }
     // ROW ONE 3 IN A ROW
@@ -222,14 +214,12 @@ function checkWinner() {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
           // ADD A JACKPOT NOTIFICATION
           win = ((v[w[5]] * 5) * 5);
+          betLogic(w)
           renderMessage(win, c[w[5]], c[w[5]])
-          winTotal += win;
-          balance += win;
         } else {
           rowWin = ((v[w[5]] * 5) * 3);
+          betLogic(w)
           renderMessage(win, c[w[5]])
-          winTotal += win;
-          balance += win;
         }
       }
 
@@ -238,14 +228,12 @@ function checkWinner() {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
           win = ((v[w[5]] * 4) * 2);
+          betLogic(w)
           renderMessage(win, c[w[5]])
-          winTotal += win;
-          balance += win;
         } else {
           win = (v[w[5]] * 4);
+          betLogic(w)
           renderMessage(win, c[w[5]])
-          winTotal += win;
-          balance += win;
         }
       }
 
@@ -254,14 +242,12 @@ function checkWinner() {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
           win = v[w[5]] * 3;
+          betLogic(win)
           renderMessage(win, c[w[5]])
-          winTotal += win;
-          balance += win;
         } else {
           win = v[w[5]] * 3;
+          betLogic(win)
           renderMessage(win, c[w[5]])
-          winTotal += win;
-          balance += win;
         }
       }
     }
@@ -275,15 +261,13 @@ function checkWinner() {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
           win = ((v[w[10]] * 5) * 5);
+          betLogic(win)
           renderMessage(win, c[w[10]], c[w[10]])
-          winTotal += win;
-          balance += winTotal;
           return;
         } else {
           win = ((v[w[10]] * 5) * 3);
+          betLogic(win)
           renderMessage(win, c[w[10]])
-          winTotal += win;
-          balance += winTotal;
         }
       }
 
@@ -292,14 +276,12 @@ function checkWinner() {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
           win = ((v[w[10]] * 4) * 2);
+          betLogic(win)
           renderMessage(win, c[w[10]])
-          winTotal += win;
-          balance += winTotal;
         } else {
           win = (v[w[10]] * 4);
+          betLogic(win)
           renderMessage(win, c[w[10]])
-          winTotal += win;
-          balance += winTotal;
       }  
     }
 
@@ -308,21 +290,17 @@ function checkWinner() {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
           win = v[w[10]] * 3;
+          betLogic(w)
           renderMessage(win, c[w[10]])
-          winTotal += win;
-          balance += winTotal;
       } else {
           win = v[w[10]] * 3;
+          betLogic(win)
           renderMessage(win, c[w[10]])
-          winTotal += win;
-          balance += winTotal;
         }
       }
     }
   }
 };
-
-
 
 function dragonMessage(win, char, dragon) {
   const dragonMessage = document.createElement('p');
@@ -338,16 +316,14 @@ function winMessage(win, char) {
   messageEl.appendChild(winMessageEl);
 }
 
-function betLogic(w) {
-  winTotal += w;
-  balance += w;
-  winnerAmountEl.innerText = winTotal;
+function betLogic(y) {
+  if (y > 0) {
+    winnerAmountEl.innerText = y;
+    balance += y;
+    console.log(balance)
+    balanceEl.innerText = balance;
+  } 
 }
-
-
-
-
-
 
 
 // function totalWin() {
