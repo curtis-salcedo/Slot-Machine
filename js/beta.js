@@ -23,7 +23,6 @@ VALUES = {
 /*----- state variables -----*/
 // USE ID'S TO TARGET SPECIFIC CELLS
 let winArray = ['','','','','','','','','','','','','','','',];
-let renderArray;
 let checkWinArray;
 
 // REPRESENTS THE 15 CELLS THAT HOLD VALUES TO DETERMINE WINNER
@@ -31,7 +30,7 @@ let cells;
 
 // CURRENT BALANCE THAT REACTS TO ADDING, 
 // HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
-let balance = 1000;
+let balance = 100;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal;
@@ -73,11 +72,12 @@ const divEls = document.querySelectorAll('div');
 const messageEl = document.getElementById('win-summary');
 const balanceEl = document.getElementById('balance-amount')
 const winnerAmountEl = document.getElementById('win-total')
-const betButtonEls = document.querySelectorAll(".bet-buttons")
+const betButtonEls = document.querySelector(".buttons")
 const betFiveButton = document.getElementById('bet-five')
 const betTenButton = document.getElementById('bet-ten')
 const betTwentyFiveButton = document.getElementById('bet-twentyfive')
 
+balanceEl.innerText = balance
 
 /*----- functions -----*/
 
@@ -88,7 +88,7 @@ function initialize() {
   // popUp();
   let winArray;
   let winTotal;
-  let balance;
+  balance;
   let betAmount;
   selectBet();
   renderScreen();
@@ -97,8 +97,13 @@ function initialize() {
 
 function selectBet() {
   spinButtonEl.style.visibility = 'hidden';
+  
+  if (balance < 5) {
+    spinButtonEl.style.visibility = 'hidden';
+  }
   betFiveButton.addEventListener('click', function(e) {
     betAmount = 5;
+    messageEl.innerText = 'PRESS THE SPIN BUTTON'
     betFiveButton.classList.add('bet-button-active')
     betTenButton.classList.remove('bet-button-active')
     betTwentyFiveButton.classList.remove('bet-button-active')
@@ -106,6 +111,7 @@ function selectBet() {
   })
   betTenButton.addEventListener('click', function(e) {
     betAmount = 10;
+    messageEl.innerText = 'PRESS THE SPIN BUTTON'
     betTenButton.classList.add('bet-button-active')
     betFiveButton.classList.remove('bet-button-active')
     betTwentyFiveButton.classList.remove('bet-button-active')
@@ -113,6 +119,7 @@ function selectBet() {
   })
   betTwentyFiveButton.addEventListener('click', function(e) {
     betAmount = 25;
+    messageEl.innerText = 'PRESS THE SPIN BUTTON'
     betTwentyFiveButton.classList.add('bet-button-active')
     betFiveButton.classList.remove('bet-button-active')
     betTenButton.classList.remove('bet-button-active')
@@ -140,20 +147,29 @@ function spinReel() {
   console.log(balance)
   balanceEl.innerText = balance;
   winnerAmountEl.innerText = 0;
-  checkWinner();
-  if (balance < betAmount) {
-    console.log("You don't have enough credits, change bet amount or add more credits to continue")
+  checkWinner()
+  checkBalance()
+}
+
+function checkBalance() {
+  if (balance < 25) {
     spinButtonEl.style.backgroundColor = 'darkgrey';
-    spinButtonEl.addEventListener('click', function(){
-    })
-  }
-  if (balance <= 0) {
-    alert("You're out of credits, game over!")
+    betTwentyFiveButton.style.visibility = 'hidden';
+    betButtonEls.classList.remove('bet-button-active')
+    betAmount = 10;
+  } else if (balance < 10) {
+    betTenButton.style.visibility = 'hidden';
+    betFiveButton.classList.add('bet-button-active')
+    betAmount = 5;
+  } else if (balance < 5) {
+    console.log("You don't have enough credits, change bet amount or add more credits to continue")
     spinButtonEl.style.visibility = 'hidden';
-    spinButtonEl.addEventListener('click', function(){
-    messageEl.innerText = "You're out of credits, add more to continue"
-    })
+    messageEl.innerText = "You're out of credits, add more to continue";
+    balanceEl.innerText = balance;
+    winnerAmountEl.innerText = ''
+    betButtonEls.style.visibility = "hidden";
   }
+  
 }
 
 // MASTER renderScreen() FUNCTION WITHOUT VALUES ASSOCIATED IN THE CHARACTERS OBJECT
@@ -338,7 +354,6 @@ function winMessage(win, char) {
   const winMessageEl = document.createElement('p');
   winMessageEl.innerText = `You won ${win}! with ${char}`;
   winMessageEl.style.fontSize = "2.25vmin"
-  winMessageEl.style.animation = "rotate 1s"
   messageEl.appendChild(winMessageEl);
 }
 
