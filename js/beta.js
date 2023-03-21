@@ -12,13 +12,12 @@ CHARACTERS = {
 }
 
 VALUES = {
-  1: 10,
-  2: 10, 
-  3: 10, 
-  4: 25, 
-  5: 50,
+  1: 1,
+  2: 1, 
+  3: 1, 
+  4: 2.5, 
+  5: 5,
 }
-
 
 
 /*----- state variables -----*/
@@ -39,7 +38,7 @@ let winTotal;
 let win;
 
 // CREDITS USED TO SPIN
-let betAmount = 10;
+let betAmount;
 
 // **TBD ON POSSIBLE MULTI-WIN COMBOS / USER SELECTED WIN COMBO AMOUNTS
 // WINNING COMBONATIONS
@@ -71,10 +70,13 @@ const screenEls = document.querySelectorAll('cells');
 const spinButtonEl = document.getElementById('spin-button');
 const cellContainer = document.querySelector('container');
 const divEls = document.querySelectorAll('div');
-const messageEl = document.querySelector('h2');
+const messageEl = document.getElementById('win-summary');
 const balanceEl = document.getElementById('balance-amount')
-balanceEl.innerText = balance
 const winnerAmountEl = document.getElementById('win-total')
+const betButtonEls = document.querySelectorAll(".bet-buttons")
+const betFiveButton = document.getElementById('bet-five')
+const betTenButton = document.getElementById('bet-ten')
+const betTwentyFiveButton = document.getElementById('bet-twentyfive')
 
 
 /*----- functions -----*/
@@ -84,16 +86,39 @@ initialize();
 
 function initialize() {
   // popUp();
-  // gameBoard;
   let winArray;
   let winTotal;
   let balance;
   let betAmount;
-  // spinReel();
+  selectBet();
   renderScreen();
-  // USED FOR FREE SPINS IF POSSIBLE
   // countSpins();
 };
+
+function selectBet() {
+  spinButtonEl.style.visibility = 'hidden';
+  betFiveButton.addEventListener('click', function(e) {
+    betAmount = 5;
+    betFiveButton.classList.add('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
+    betTwentyFiveButton.classList.remove('bet-button-active')
+    spinButtonEl.style.visibility = 'visible';
+  })
+  betTenButton.addEventListener('click', function(e) {
+    betAmount = 10;
+    betTenButton.classList.add('bet-button-active')
+    betFiveButton.classList.remove('bet-button-active')
+    betTwentyFiveButton.classList.remove('bet-button-active')
+    spinButtonEl.style.visibility = 'visible';
+  })
+  betTwentyFiveButton.addEventListener('click', function(e) {
+    betAmount = 25;
+    betTwentyFiveButton.classList.add('bet-button-active')
+    betFiveButton.classList.remove('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
+    spinButtonEl.style.visibility = 'visible';
+  })
+}
 
 function popUp () {
   // spinButtonEl.addEventListener('click', function(){
@@ -151,6 +176,7 @@ function checkWinner() {
   const w = winArray;
   const v = VALUES;
   const c = CHARACTERS;
+  const b = betAmount;
   let win;
   messageEl.innerText = ''
   // CHECK WINNER FUNCTIONS
@@ -166,11 +192,11 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
           // ADD A JACKPOT NOTIFICATION
-          win = ((v[w[0]] * 5) * 5);
+          win = ((v[w[0]] * 5) * 5) * b;
           betLogic(win)
           renderMessage(win, c[w[0]], c[w[0]])
         } else {
-          win = ((v[w[0]] * 5) * 3);
+          win = ((v[w[0]] * 5) * 3) * b;
           betLogic(win)
           renderMessage(win, c[w[0]])
         }
@@ -180,11 +206,11 @@ function checkWinner() {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
-          win = ((v[w[0]] * 4) * 2);
+          win = ((v[w[0]] * 4) * 2) * b;
           betLogic(win)
           renderMessage(win, c[w[0]])
         } else {
-          win = (v[w[0]] * 4);
+          win = (v[w[0]] * 4) * b;
           betLogic(win)
           renderMessage(win, c[w[0]])
         }
@@ -193,11 +219,11 @@ function checkWinner() {
     } else if (w[0] === w[1] && w[1] === w[2]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
-          win = v[w[0]] * 3;
+          win = v[w[0]] * 3 * b;
           betLogic(win)
           renderMessage(win, c[w[0]], c[w[0]])
         } else {         
-          win = v[w[0]] * 3;
+          win = v[w[0]] * 3 * b;
           betLogic(win)
           renderMessage(win, c[w[0]])
         }
@@ -213,11 +239,11 @@ function checkWinner() {
       if(true) {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
           // ADD A JACKPOT NOTIFICATION
-          win = ((v[w[5]] * 5) * 5);
+          win = ((v[w[5]] * 5) * 5) * b;
           betLogic(w)
           renderMessage(win, c[w[5]], c[w[5]])
         } else {
-          rowWin = ((v[w[5]] * 5) * 3);
+          win = ((v[w[5]] * 5) * 3) * b;
           betLogic(w)
           renderMessage(win, c[w[5]])
         }
@@ -227,11 +253,11 @@ function checkWinner() {
     } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-          win = ((v[w[5]] * 4) * 2);
+          win = ((v[w[5]] * 4) * 2) * b;
           betLogic(w)
           renderMessage(win, c[w[5]])
         } else {
-          win = (v[w[5]] * 4);
+          win = (v[w[5]] * 4) * b;
           betLogic(w)
           renderMessage(win, c[w[5]])
         }
@@ -241,11 +267,11 @@ function checkWinner() {
     } else if (w[5] === w[6] && w[6] === w[7]) {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
-          win = v[w[5]] * 3;
+          win = (v[w[5]] * 3) * b;
           betLogic(win)
           renderMessage(win, c[w[5]])
         } else {
-          win = v[w[5]] * 3;
+          win = (v[w[5]] * 3) * b;
           betLogic(win)
           renderMessage(win, c[w[5]])
         }
@@ -260,12 +286,12 @@ function checkWinner() {
     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-          win = ((v[w[10]] * 5) * 5);
+          win = ((v[w[10]] * 5) * 5) * b;
           betLogic(win)
           renderMessage(win, c[w[10]], c[w[10]])
           return;
         } else {
-          win = ((v[w[10]] * 5) * 3);
+          win = ((v[w[10]] * 5) * 3) * b;
           betLogic(win)
           renderMessage(win, c[w[10]])
         }
@@ -275,11 +301,11 @@ function checkWinner() {
     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-          win = ((v[w[10]] * 4) * 2);
+          win = ((v[w[10]] * 4) * 2) * b;
           betLogic(win)
           renderMessage(win, c[w[10]])
         } else {
-          win = (v[w[10]] * 4);
+          win = (v[w[10]] * 4) * b;
           betLogic(win)
           renderMessage(win, c[w[10]])
       }  
@@ -289,11 +315,11 @@ function checkWinner() {
     } else if (w[10] === w[11] && w[11] === w[12]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
-          win = v[w[10]] * 3;
+          win = (v[w[10]] * 3) * b;
           betLogic(w)
           renderMessage(win, c[w[10]])
       } else {
-          win = v[w[10]] * 3;
+          win = (v[w[10]] * 3) * b;
           betLogic(win)
           renderMessage(win, c[w[10]])
         }
