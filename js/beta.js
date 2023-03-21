@@ -72,9 +72,9 @@ const spinButtonEl = document.getElementById('spin-button');
 const cellContainer = document.querySelector('container');
 const divEls = document.querySelectorAll('div');
 const messageEl = document.querySelector('h2');
-const balanceEl = document.getElementById('balance')
+const balanceEl = document.getElementById('balance-amount')
 balanceEl.innerText = balance
-const winnerAmountEl = document.getElementById('win-amount')
+const winnerAmountEl = document.getElementById('win-total')
 
 
 /*----- functions -----*/

@@ -9,13 +9,14 @@ body {
   font-family: 'Carter One', cursive;
   background-image: linear-gradient(to bottom right, rgb(4, 56, 4),rgb(19, 95, 19),rgb(17, 136, 27));
   grid-template-rows: auto;
-  grid-template-columns: 3vw 1fr 1fr 3vw;
+  grid-template-columns: 1vw auto 1vw;
   grid:
-  "header header header" auto
-  "left h1 right" auto
-  "left h2 right" auto
-  "left message right" auto
-  "left body right" auto
+  "header header header" 
+  "left h1 right" 
+  "left h2 right" 
+  "left message right" 
+  "left body right"
+  "left upperfooter right"
   "left footer right" auto;
   cursor: default;
 }
@@ -74,35 +75,100 @@ h2 {
 
 footer {
   grid-area: footer;
-  display: grid;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 3vmin;
-  margin-top: 3.25vmin;
+  font-size: 2vmin;
   border: solid .25vh #ffd700;
   border-radius: 3vmin;
   background-color: rgb(77, 47, 8);
   color: rgba(255, 255, 255, 0.719);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 10vmin;
+}
+.bet-buttons {
+  grid-column: 2;
+  grid-row: 2;
+  border-radius: 3vmin;
+  justify-self: center;
+  align-self: center;
+  cursor: pointer;
+  margin-top: -1vmin;
+}
+
+#bet-amount-text {
+  border: solid .25vh #ffd700;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 3vmin;
+}  
+
+#bet-five {
+  width: 7vmin;
+  height: 3vmin;
+}
+#bet-ten {
+  width: 7vmin;
+  height: 3vmin;
+}
+#bet-twentyfive {
+  width: 7vmin;
+  height: 3vmin;
 }
 
 #balance-text {
-  padding-left: 5vmin;
+  grid-row: 1;
+  grid-column: 1;
+  border: solid .25vh #ffd700;
+  text-align: center;
+  align-self: end;
+  margin-left: 3vmin;
+  border-radius: 3vmin;
+}
+#balance-amount {
+  grid-row: 2;
+  grid-column: 1;
+  text-align: center;
+  height: 4vmin;
+  margin-top: -2vmin;
+  margin-left: 3vmin;
+  border-radius: 3vmin;
 }
 
-#win-amount {
-  padding-right: 5vmin;
+#win-text {
+  grid-row: 1;
+  grid-column: 3;
+  border: solid .25vh #ffd700;
+  text-align: center;
+  align-self: end;
+  margin-right: 3vmin;
+  border-radius: 3vmin;
 }
+#win-total {
+  grid-row: 2;
+  grid-column: 3;
+  text-align: center;
+  height: 4vmin;
+  margin-top: -2vmin;
+  margin-right: 3vmin;
+  border-radius: 3vmin;
+}
+
 
 #spin-button {
+  grid-row: 1;
+  grid-column: 2;
   color: white;
   background-image: radial-gradient(red, rgb(70, 16, 16));
-  height: 10vh;
-  width: 18vh;
+  height: 9vh;
+  width: 14vh;
   border-radius: 50%;
   border: 1vmin solid whitesmoke;
-  font-size: 4.5vmin;
+  font-size: 2vmin;
   cursor: pointer;
+  justify-content: center;
+  text-align: center;
+  margin: .5vmin auto -.75vmin auto;
 }
 
 #spin-button:active {
