@@ -30,7 +30,7 @@ let cells;
 
 // CURRENT BALANCE THAT REACTS TO ADDING, 
 // HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
-let balance = 100;
+let balance = 29;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal;
@@ -97,10 +97,10 @@ function initialize() {
 
 function selectBet() {
   spinButtonEl.style.visibility = 'hidden';
-  
-  if (balance < 5) {
-    spinButtonEl.style.visibility = 'hidden';
+  if (balance >= 5) {
+    betButtonEls.style.visibility = 'visible'
   }
+  
   betFiveButton.addEventListener('click', function(e) {
     betAmount = 5;
     messageEl.innerText = 'PRESS THE SPIN BUTTON'
@@ -145,31 +145,10 @@ function spinReel() {
   winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
   balance -= betAmount
   console.log(balance)
-  balanceEl.innerText = balance;
   winnerAmountEl.innerText = 0;
+  balanceEl.innerText = balance;
+  checkButtons()
   checkWinner()
-  checkBalance()
-}
-
-function checkBalance() {
-  if (balance < 25) {
-    spinButtonEl.style.backgroundColor = 'darkgrey';
-    betTwentyFiveButton.style.visibility = 'hidden';
-    betButtonEls.classList.remove('bet-button-active')
-    betAmount = 10;
-  } else if (balance < 10) {
-    betTenButton.style.visibility = 'hidden';
-    betFiveButton.classList.add('bet-button-active')
-    betAmount = 5;
-  } else if (balance < 5) {
-    console.log("You don't have enough credits, change bet amount or add more credits to continue")
-    spinButtonEl.style.visibility = 'hidden';
-    messageEl.innerText = "You're out of credits, add more to continue";
-    balanceEl.innerText = balance;
-    winnerAmountEl.innerText = ''
-    betButtonEls.style.visibility = "hidden";
-  }
-  
 }
 
 // MASTER renderScreen() FUNCTION WITHOUT VALUES ASSOCIATED IN THE CHARACTERS OBJECT
@@ -199,8 +178,8 @@ function checkWinner() {
   rowOneCheck()
   rowTwoCheck()
   rowThreeCheck()
-
-
+  
+  
   //CHECK ROW 1
   function rowOneCheck() {
     // ROW ONE 5 IN A ROW
@@ -216,8 +195,8 @@ function checkWinner() {
           betLogic(win)
           renderMessage(win, c[w[0]])
         }
-    }
-    // ROW ONE 4 IN A ROW
+      }
+      // ROW ONE 4 IN A ROW
     } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
@@ -231,7 +210,7 @@ function checkWinner() {
           renderMessage(win, c[w[0]])
         }
       }
-    // ROW ONE 3 IN A ROW
+      // ROW ONE 3 IN A ROW
     } else if (w[0] === w[1] && w[1] === w[2]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
@@ -249,7 +228,7 @@ function checkWinner() {
 
   // CHECK ROW 2
   function rowTwoCheck() {
-
+    
     // ROW TWO 5 IN A ROW
     if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
       if(true) {
@@ -264,8 +243,8 @@ function checkWinner() {
           renderMessage(win, c[w[5]])
         }
       }
-
-    // ROW TWO 4 IN A ROW
+      
+      // ROW TWO 4 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
@@ -278,8 +257,8 @@ function checkWinner() {
           renderMessage(win, c[w[5]])
         }
       }
-
-    // ROW TWO 3 IN A ROW
+      
+      // ROW TWO 3 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7]) {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
@@ -294,10 +273,10 @@ function checkWinner() {
       }
     }
   }
-
+  
   // CHECK ROW 3
   function rowThreeCheck() {
-
+    
     // ROW THREE 5 IN A ROW
     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
       if(true) {
@@ -312,8 +291,8 @@ function checkWinner() {
           renderMessage(win, c[w[10]])
         }
       }
-
-    // ROW THREE 4 IN A ROW
+      
+      // ROW THREE 4 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
@@ -324,17 +303,17 @@ function checkWinner() {
           win = (v[w[10]] * 4) * b;
           betLogic(win)
           renderMessage(win, c[w[10]])
-      }  
-    }
-
-    // ROW THREE 3 IN A ROW
+        }  
+      }
+      
+      // ROW THREE 3 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
           win = (v[w[10]] * 3) * b;
           betLogic(w)
           renderMessage(win, c[w[10]])
-      } else {
+        } else {
           win = (v[w[10]] * 3) * b;
           betLogic(win)
           renderMessage(win, c[w[10]])
@@ -343,6 +322,7 @@ function checkWinner() {
     }
   }
 };
+
 
 function dragonMessage(win, char, dragon) {
   const dragonMessage = document.createElement('p');
@@ -364,11 +344,46 @@ function betLogic(y) {
     console.log(balance)
     balanceEl.innerText = balance;
   } 
+  checkButtons()
 }
 
+function checkButtons() {
+  console.log(balance, win)
+  balanceEl.innerText = balance;
+  // IF CREDIT BALANCE UNDER 5; HIDE ALL BUTTONS AND WIN TOTAL AND DISPLAY BALANCE ONLY
+  if (balance < 5) {
+    messageEl.innerText = ("Add more credits to continue")
+    spinButtonEl.style.visibility = 'hidden'
+    betFiveButton.style.visibility = 'hidden'
+    betTenButton.style.visibility = 'hidden'
+    betTwentyFiveButton.style.visibility = 'hidden'
+  }
+  // IF CREDIT BALANCE IS 5 TO 9; HIDE BET AMOUNT 10 AND 25, AUTO SELECT BET AMOUNT 5, HIGHLIGHT BET 5
+  if (balance >= 5 && balance < 10) {
+    betFiveButton.style.visibility = 'visible'
+    betTenButton.style.visibility = 'hidden'
+    betTwentyFiveButton.style.visibility = 'hidden'
+    betFiveButton.classList.add('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
+    betAmount = 5;
+  }
+  // IF CREDIT BALANCE IS 10 TO 24; DESELECT ALL BET BUTTONS AND HIDE SPIN BUTTON UNTIL CHOICE IS MADE
+  if (balance >= 10 && balance <= 24) {
+    betTenButton.style.visibility = 'visible'
+    betTwentyFiveButton.style.visibility = 'hidden'
+    betTenButton.classList.add('bet-button-active')
+    betAmount = 10;
+  }
+  // IF CREDIT BALANCE IS 25 OR OVER; KEEP CURRENT SELECTION BUT ADD BET AMOUNT 25 TO BE VISIBLE
+  if (balance >= 25) {
+    betFiveButton.style.visibility = 'visible'
+    betTenButton.style.visibility = 'visible'
+    betTwentyFiveButton.style.visibility = 'visible'
+  }
+}
 
 // function totalWin() {
-//   if (winTotal.length > 1) {
+  //   if (winTotal.length > 1) {
 //     const winMessageEl = document.createElement('p');
 //     winMessageEl.innerText = 
 //     `Multi-line Win!

@@ -143,16 +143,6 @@ footer {
   background-image: radial-gradient(red, #ffd700, red);
 }
 
-.buttons {
-  grid-column: 1;
-  grid-row: 4;
-  border-radius: 3vmin;
-  font-size: auto;
-  align-self: center;
-  justify-self: center;
-  cursor: pointer;
-}
-
 #bet-amount-text {
   grid-row: 3;
   grid-column: 1;
@@ -167,9 +157,18 @@ footer {
   background-image: linear-gradient(#ffd700, red, #ffd700);
   border: .25vmin solid #ffd700;
 }
+.buttons {
+  grid-column: 1;
+  grid-row: 4;
+  font-size: auto;
+  align-self: center;
+  justify-self: center;
+  cursor: pointer;
+  margin-top: -1vmin;
+}
 
 #bet-five {
-  width: 7vmin;
+  width: 6vmin;
   height: 3vh;
   border: .25vmin solid #ffd700;
   grid-row: 4;
@@ -179,7 +178,7 @@ footer {
 }
 
 #bet-ten {
-  width: 7vmin;
+  width: 6vmin;
   height: 3vmin;
   border: .25vmin solid #ffd700;
   grid-row: 4;
@@ -189,7 +188,7 @@ footer {
 }
 
 #bet-twentyfive {
-  width: 7vmin;
+  width: 6vmin;
   height: 3vmin;
   border: .25vmin solid #ffd700;
   grid-row: 4;

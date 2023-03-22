@@ -1,12 +1,6 @@
-// HTML IS CURRENTLY USING BETA.JS TO EXPERIMENT. BELOW IS THE PROJECT ONE MVP.
-
-// WILL DESIGN GAME SO IT CAN BE TRIMMED DOWN TO 3 X 3 CELLS IF NEEDED
-
 /*----- constants -----*/
 
-// WILL CREATE OBJECT WITH EACH ITEM BELOW WITH NAME, INDEX, VALUE, ETC..
-// IF WE ADD 5 IN A ROW ADD A NEW CHARACTER/CARD
-// EMOJIS
+// EMOJIS FOR renderScreen
 CHARACTERS = {
   1: '💲', // JACK / value = 10
   2: '💵', // QUEEN / value = 10
@@ -15,39 +9,35 @@ CHARACTERS = {
   5: '🐉', // KOMODO DRAGON / value = 50
 }
 
+// VALUES FOR winArray
 VALUES = {
-  1: 10,
-  2: 10, 
-  3: 10, 
-  4: 25, 
-  5: 50,
+  1: 1,
+  2: 1, 
+  3: 1, 
+  4: 2.5, 
+  5: 5,
 }
 
-
-
 /*----- state variables -----*/
-// USE ID'S TO TARGET SPECIFIC CELLS
+// ARRAY TO SEARCH FOR WINNER
 let winArray = ['','','','','','','','','','','','','','','',];
-let renderArray;
-let checkWinArray;
 
 // REPRESENTS THE 15 CELLS THAT HOLD VALUES TO DETERMINE WINNER
-// **MAY CHANGE NAME
 let cells;
 
-// CURRENT BALANCE THAT REACTS TO ADDING, 
+// STARTING BALANCE
 // HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
-let balance = 1000;
+let balance = 29;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
-let winTotal = 0;
+let winTotal;
+let win;
 
-// AMOUNT OF CREDITS USED PER SPIN
-let betAmount = 10;
+// CREDITS USED TO SPIN
+let betAmount;
 
-// WINNING COMBONATIONS
 // **TBD ON POSSIBLE MULTI-WIN COMBOS / USER SELECTED WIN COMBO AMOUNTS
-// USING AN ARRAY OF EMPTY STRINGS TO FIND THE WINNING COMOBS USING LOOP
+// WINNING COMBONATIONS
 const combo = [
   // FOUR ACROSS WINS
   [0,1,2],
@@ -71,15 +61,20 @@ const combo = [
 
 
 // NAME OF THE SLOT MACHINE CELLS
+const bodyEl = document.querySelector('body');
 const screenEls = document.querySelectorAll('cells');
 const spinButtonEl = document.getElementById('spin-button');
 const cellContainer = document.querySelector('container');
 const divEls = document.querySelectorAll('div');
-const messageEl = document.querySelector('h2');
-const balanceEl = document.getElementById('balance')
-balanceEl.innerText = balance
-const winnerEl = document.getElementById('win-amount')
+const messageEl = document.getElementById('win-summary');
+const balanceEl = document.getElementById('balance-amount')
+const winnerAmountEl = document.getElementById('win-total')
+const betButtonEls = document.querySelector(".buttons")
+const betFiveButton = document.getElementById('bet-five')
+const betTenButton = document.getElementById('bet-ten')
+const betTwentyFiveButton = document.getElementById('bet-twentyfive')
 
+balanceEl.innerText = balance
 
 /*----- functions -----*/
 
@@ -87,60 +82,51 @@ const winnerEl = document.getElementById('win-amount')
 initialize();
 
 function initialize() {
-  // popUp();
-  // gameBoard;
-  let winArray;
-  let winTotal;
-  let balance;
-  let betAmount;
-  // spinReel();
+  popUp();
+  selectBet();
   renderScreen();
-  renderMessage();
-  // USED FOR FREE SPINS IF POSSIBLE
-  // countSpins();
 };
 
-function popUp () {
-  // spinButtonEl.addEventListener('click', function(){
-  //   alert('Click "OK" confirm if over the age of 18 years old, otherwise please do not enter.')})
-  //   return;
-  };
+function selectBet() {
+  spinButtonEl.style.visibility = 'hidden';
+  if (balance >= 5) {
+    betButtonEls.style.visibility = 'visible'
+  }
   
-// USED TO TELL PLAYER THEY WON ANY AMOUNT OF MONEY
-// REPORT THE WINNINGS BELOW "WIN TOTAL" AREA
-function renderMessage() {
-  // START UP ANIMATION
-  // betLogic();
-  function renderStartMessage() {}
-};
-
-// THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
-function spinReel() {
-  winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  winnerEl.innerText = 0;
-  betAmount = balance -= 10;
-  balanceEl.innerText = balance;
-  checkWinner();
-  if (balance < betAmount) {
-    console.log("You don't have enough credits, change bet amount or add more credits to continue")
-    spinButtonEl.style.backgroundColor = 'darkgrey';
-    spinButtonEl.addEventListener('click', function(){
-    })
-  }
-  if (balance <= 0) {
-    alert("You're out of money, game over!")
-    spinButtonEl.style.visibility = 'hidden';
-    spinButtonEl.addEventListener('click', function(){
-    messageEl.innerText = "You're out of credits, add more to continue"
-    })
-  }
+  betFiveButton.addEventListener('click', function(e) {
+    betAmount = 5;
+    messageEl.innerText = 'PRESS THE SPIN BUTTON'
+    betFiveButton.classList.add('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
+    betTwentyFiveButton.classList.remove('bet-button-active')
+    spinButtonEl.style.visibility = 'visible';
+  })
+  betTenButton.addEventListener('click', function(e) {
+    betAmount = 10;
+    messageEl.innerText = 'PRESS THE SPIN BUTTON'
+    betTenButton.classList.add('bet-button-active')
+    betFiveButton.classList.remove('bet-button-active')
+    betTwentyFiveButton.classList.remove('bet-button-active')
+    spinButtonEl.style.visibility = 'visible';
+  })
+  betTwentyFiveButton.addEventListener('click', function(e) {
+    betAmount = 25;
+    messageEl.innerText = 'PRESS THE SPIN BUTTON'
+    betTwentyFiveButton.classList.add('bet-button-active')
+    betFiveButton.classList.remove('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
+    spinButtonEl.style.visibility = 'visible';
+  })
 }
 
-// MASTER renderScreen() FUNCTION WITHOUT VALUES ASSOCIATED IN THE CHARACTERS OBJECT
-// CHECK THE RESULTS THAT END UP IN screenEls
-// COMPARE AGAINST THE cellArray and winningCombos FOR WINNERS
-// LOOK UP TO HIGHLIGHT WINNERS
-// POSSIBLY USED TO RESET THE screen
+function renderMessage(win, char, dragon) {
+  if (dragon === `${dragon}`) {
+    dragonMessage(win, char, dragon)
+  } else 
+    winMessage(win, char)
+}
+
+// RENDERS RANDOM ARRAY FOR WINNERS
 function renderScreen() {
   spinButtonEl.addEventListener('click', function(){
     spinReel(); // NEED TO CALL SPINREEL IN RENDER TO MAKE SURE THE NUMBERS ARE RESET WHEN BUTTON IS PRESSED
@@ -150,84 +136,75 @@ function renderScreen() {
       const getChars = CHARACTERS[cell];
       divEls[index].innerText = getChars;
     })
-    // checkJackpot();
-    // checkWinner();
   })
 };
 
+// THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
+function spinReel() {
+  winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
+  balance -= betAmount
+  console.log(balance)
+  winnerAmountEl.innerText = 0;
+  balanceEl.innerText = balance;
+  checkButtons()
+  checkWinner()
+}
+
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
 function checkWinner() {
-  const w = winArray
-  const v = VALUES
-
+  const w = winArray;
+  const v = VALUES;
+  const c = CHARACTERS;
+  const b = betAmount;
+  let win;
+  messageEl.innerText = ''
   // CHECK WINNER FUNCTIONS
-  rowOneCheck();
-  rowTwoCheck();
-  rowThreeCheck();
-
-
-  //CHECK ROW 1
+  rowOneCheck()
+  rowTwoCheck()
+  rowThreeCheck()
+  
+  
+  // CHECK ROW 1
   function rowOneCheck() {
     // ROW ONE 5 IN A ROW
     if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
           // ADD A JACKPOT NOTIFICATION
-          winTotal = ((v[w[0]] * 5) * 5);
-          balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `5-Dragons-in-a-row  jackpot!
-            You won ${winTotal}`
-          
+          win = ((v[w[0]] * 5) * 5) * b;
+          betLogic(win)
+          renderMessage(win, c[w[0]], c[w[0]])
         } else {
-          winTotal = ((v[w[0]] * 5) * 3);
-          balance += winTotal;
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `5-in-a-row!
-            You won ${winTotal}`
+          win = ((v[w[0]] * 5) * 3) * b;
+          betLogic(win)
+          renderMessage(win, c[w[0]])
         }
-    }
-    // ROW ONE 4 IN A ROW
+      }
+      // ROW ONE 4 IN A ROW
     } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
-          winTotal = ((v[w[0]] * 4) * 2);
-          balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `4-Dragons-in-a-row!
-            You won ${winTotal}`
-          
+          win = ((v[w[0]] * 4) * 2) * b;
+          betLogic(win)
+          renderMessage(win, c[w[0]])
         } else {
-          winTotal = (v[w[0]] * 4);
-          balance += winTotal
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `4-in-a-row!
-            You won ${winTotal}`
+          win = (v[w[0]] * 4) * b;
+          betLogic(win)
+          renderMessage(win, c[w[0]])
         }
       }
-    // ROW ONE 3 IN A ROW
+      // ROW ONE 3 IN A ROW
     } else if (w[0] === w[1] && w[1] === w[2]) {
       if(true) {
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
-          winTotal = v[w[0]] * 3;
-          balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `3-Dragons-in-a-row!
-            You won ${winTotal}`
-        } else {
-          winTotal = v[w[0]] * 3;
-          balance += winTotal;
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `3-in-a-row!
-            You won ${winTotal}`
-        
+          win = v[w[0]] * 3 * b;
+          betLogic(win)
+          renderMessage(win, c[w[0]], c[w[0]])
+        } else {         
+          win = v[w[0]] * 3 * b;
+          betLogic(win)
+          renderMessage(win, c[w[0]])
         }
       }
     }
@@ -235,201 +212,155 @@ function checkWinner() {
 
   // CHECK ROW 2
   function rowTwoCheck() {
-
+    
     // ROW TWO 5 IN A ROW
     if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
       if(true) {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
           // ADD A JACKPOT NOTIFICATION
-          winTotal = ((v[w[5]] * 5) * 5);
-          totalWin()
-          balance = balance + winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `5-Dragons-in-a-row  jackpot!
-            You won ${winTotal}`
+          win = ((v[w[5]] * 5) * 5) * b;
+          betLogic(w)
+          renderMessage(win, c[w[5]], c[w[5]])
         } else {
-          winTotal = ((v[w[5]] * 5) * 3);
-          balance = balance + winTotal;
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `5-in-a-row!
-            You won ${winTotal}`
-          
+          win = ((v[w[5]] * 5) * 3) * b;
+          betLogic(w)
+          renderMessage(win, c[w[5]])
         }
       }
-
-    // ROW TWO 4 IN A ROW
+      
+      // ROW TWO 4 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-          winTotal = ((v[w[5]] * 4) * 2);
-          balance = balance + winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `4-Dragons-in-a-row!
-            You won ${winTotal}`
-          
+          win = ((v[w[5]] * 4) * 2) * b;
+          betLogic(w)
+          renderMessage(win, c[w[5]])
         } else {
-          winTotal = (v[w[5]] * 4);
-          balance += winTotal
-          winnerEl.innerText = winTotal;
-          messageEl.innerText = 
-            `4-in-a-row!
-            You won ${winTotal}`;
+          win = (v[w[5]] * 4) * b;
+          betLogic(w)
+          renderMessage(win, c[w[5]])
         }
       }
-
-    // ROW TWO 3 IN A ROW
+      
+      // ROW TWO 3 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7]) {
       if(true) {
-          if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
-            winTotal = v[w[5]] * 3;
-            balance += winTotal;
-            winnerEl.innerHTML = winTotal;
-            messageEl.innerText = 
-            `3-Dragons-in-a-row!
-            You won ${winTotal}`
-            
+        if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
+          win = (v[w[5]] * 3) * b;
+          betLogic(win)
+          renderMessage(win, c[w[5]])
         } else {
-            winTotal = v[w[5]] * 3;
-            balance += winTotal;
-            winnerEl.innerText = winTotal;
-            messageEl.innerText = 
-            `3-in-a-row!
-            You won ${winTotal}`
+          win = (v[w[5]] * 3) * b;
+          betLogic(win)
+          renderMessage(win, c[w[5]])
         }
       }
     }
   }
-
+  
   // CHECK ROW 3
   function rowThreeCheck() {
-
+    
     // ROW THREE 5 IN A ROW
     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-          winTotal = ((v[w[10]] * 5) * 5);
-          balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `5-Dragons-in-a-row  jackpot!
-            You won ${winTotal}`
+          win = ((v[w[10]] * 5) * 5) * b;
+          betLogic(win)
+          renderMessage(win, c[w[10]], c[w[10]])
           return;
         } else {
-        winTotal = ((v[w[10]] * 5) * 3);
-        balance += winTotal;
-        winnerEl.innerText = winTotal;
-        messageEl.innerText = 
-            `5-in-a-row!
-            You won ${winTotal}`
+          win = ((v[w[10]] * 5) * 3) * b;
+          betLogic(win)
+          renderMessage(win, c[w[10]])
+        }
       }
-    }
-
-    // ROW THREE 4 IN A ROW
+      
+      // ROW THREE 4 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-          winTotal = ((v[w[10]] * 4) * 2);
-          balance += winTotal;
-          messageEl.innerText = 
-            `4-Dragons-in-a-row!
-            You won ${winTotal}`
-          return;
+          win = ((v[w[10]] * 4) * 2) * b;
+          betLogic(win)
+          renderMessage(win, c[w[10]])
         } else {
-        winTotal = (v[w[10]] * 4);
-        balance += winTotal
-        winnerEl.innerText = winTotal;
-        messageEl.innerText = 
-            `4-in-a-row!
-            You won ${winTotal}`
-      }  
-    }
-
-    // ROW THREE 3 IN A ROW
+          win = (v[w[10]] * 4) * b;
+          betLogic(win)
+          renderMessage(win, c[w[10]])
+        }  
+      }
+      
+      // ROW THREE 3 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12]) {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
-          winTotal = v[w[10]] * 3;
-          balance += winTotal;
-          winnerEl.innerHTML = winTotal;
-          messageEl.innerText = 
-            `3-Dragons-in-a-row!
-            You won ${winTotal}`
-          return;
-      } else {
-        winTotal = v[w[10]] * 3;
-        balance += winTotal;
-        winnerEl.innerText = winTotal;
-        messageEl.innerText = 
-            `3-in-a-row!
-            You won ${winTotal}`
+          win = (v[w[10]] * 3) * b;
+          betLogic(w)
+          renderMessage(win, c[w[10]])
+        } else {
+          win = (v[w[10]] * 3) * b;
+          betLogic(win)
+          renderMessage(win, c[w[10]])
         }
       }
     }
   }
-    console.log(balance)
 };
 
-function totalWin() {
-  console.log(winTotal)
+function dragonMessage(win, char, dragon) {
+  const dragonMessage = document.createElement('p');
+  dragonMessage.innerText = `${dragon} let you win ${win}!`;
+  messageEl.appendChild(dragonMessage);
 }
 
-// function betLogic() {
-//   // USE THE BET AMOUNT TO MULTIPLY THE VALUE OF EACH CHARACTER VALUE
-//   // BET AMOUNT IS LOCATED IN THE spinReel() FUCNTION
-//   betAmount = balance -= 10;
-//   betTotal
-//   balace
-// }
+function winMessage(win, char) {
+  const winMessageEl = document.createElement('p');
+  winMessageEl.innerText = `You won ${win}! with ${char}`;
+  winMessageEl.style.fontSize = "2.25vmin"
+  messageEl.appendChild(winMessageEl);
+}
 
+function betLogic(y) {
+  if (y > 0) {
+    winnerAmountEl.innerText = y;
+    balance += y;
+    console.log(balance)
+    balanceEl.innerText = balance;
+  } 
+  checkButtons()
+}
 
-
-// ICEBOX!!
-//FUNCTIONS MAY NOT USE
-// function countSpins() {};
-// function screenAnimation(){};
-// function addMoney () {};
-
-// ICEBOX EVENT LISTENERS
-// const betAmountButton = document.getElementById('bet-amount');
-// const addMoney = document.getElementById('add-money');
-
-// TRACKS THE TOTAL AMOUNT BET PER BUTTON CLICK
-// **MAY REMOVE
-// let winAmount;
-
-// IF POSSIBLE IDEAS
-// let freeSpins;
-// let jackpotAnimation;
-
-// THESE ARE THE 5 ACROSS WINS
-// [1,2,3,4,5], // first row super
-// [6,7,8,9,10], // second row super
-// [11,12,13,14,15], // thrid row super
-// THESE ARE THE CROSS WIN COMBOS
-// [1,2,8,14,15],
-// [11,12,8,4,5],
-
-// BUTTONS
-// **MAY NOT HAVE RIGHT AWAY
-// let increaseBet;
-// let decreaseBet;
-
-// IF POSSIBLE BUT UNLIKELY
-// let stopButton;
-
-// TO BE MADE LOOP TO CHECK WINNER
-// function checkWinner()
-   //   for (let i = 0; i < combo.length; i++) {
-     //     for (let j = 0; j < combo[i].length; j++) {
-       // console.log(winArray[combo[i][j]])
-       // console.log(combo[i])
-       // console.log(combo[i][0])
-       // console.log(combo[i][j])
-       // console.log(winArray[combo[i][j]])
-       // console.log(winArray[combo[i][j]], combo[i][j])
- //     }
-  //   }
-  // };
+function checkButtons() {
+  console.log(balance, win)
+  balanceEl.innerText = balance;
+  // IF CREDIT BALANCE UNDER 5; HIDE ALL BUTTONS AND WIN TOTAL AND DISPLAY BALANCE ONLY
+  if (balance < 5) {
+    messageEl.innerText = ("Add more credits to continue")
+    spinButtonEl.style.visibility = 'hidden'
+    betFiveButton.style.visibility = 'hidden'
+    betTenButton.style.visibility = 'hidden'
+    betTwentyFiveButton.style.visibility = 'hidden'
+  }
+  // IF CREDIT BALANCE IS 5 TO 9; HIDE BET AMOUNT 10 AND 25, AUTO SELECT BET AMOUNT 5, HIGHLIGHT BET 5
+  if (balance >= 5 && balance < 10) {
+    betFiveButton.style.visibility = 'visible'
+    betTenButton.style.visibility = 'hidden'
+    betTwentyFiveButton.style.visibility = 'hidden'
+    betFiveButton.classList.add('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
+    betAmount = 5;
+  }
+  // IF CREDIT BALANCE IS 10 TO 24; DESELECT ALL BET BUTTONS AND HIDE SPIN BUTTON UNTIL CHOICE IS MADE
+  if (balance >= 10 && balance <= 24) {
+    betTenButton.style.visibility = 'visible'
+    betTwentyFiveButton.style.visibility = 'hidden'
+    betTenButton.classList.add('bet-button-active')
+    betAmount = 10;
+  }
+  // IF CREDIT BALANCE IS 25 OR OVER; KEEP CURRENT SELECTION BUT ADD BET AMOUNT 25 TO BE VISIBLE
+  if (balance >= 25) {
+    betFiveButton.style.visibility = 'visible'
+    betTenButton.style.visibility = 'visible'
+    betTwentyFiveButton.style.visibility = 'visible'
+  }
+}
