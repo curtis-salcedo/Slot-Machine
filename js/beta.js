@@ -1,8 +1,4 @@
-/*----- constants -----*/
-
-// WILL CREATE OBJECT WITH EACH ITEM BELOW WITH NAME, INDEX, VALUE, ETC..
-// IF WE ADD 5 IN A ROW ADD A NEW CHARACTER/CARD
-// EMOJIS
+// EMOJIS FOR renderScreen
 CHARACTERS = {
   1: '💲', // JACK / value = 10
   2: '💵', // QUEEN / value = 10
@@ -11,6 +7,7 @@ CHARACTERS = {
   5: '🐉', // KOMODO DRAGON / value = 50
 }
 
+// VALUES FOR winArray
 VALUES = {
   1: 1,
   2: 1, 
@@ -19,18 +16,15 @@ VALUES = {
   5: 5,
 }
 
-
-/*----- state variables -----*/
-// USE ID'S TO TARGET SPECIFIC CELLS
-let winArray = ['','','','','','','','','','','','','','','',];
-let checkWinArray;
-
+// ARRAY TO SEARCH FOR WINNER
+// let winArray = ['','','','','','','','','','','','','','',''];
+let winArray;
 // REPRESENTS THE 15 CELLS THAT HOLD VALUES TO DETERMINE WINNER
 let cells;
 
-// CURRENT BALANCE THAT REACTS TO ADDING, 
+// STARTING BALANCE
 // HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
-let balance = 29;
+let balance = 1000;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal;
@@ -41,7 +35,7 @@ let betAmount;
 
 // **TBD ON POSSIBLE MULTI-WIN COMBOS / USER SELECTED WIN COMBO AMOUNTS
 // WINNING COMBONATIONS
-const combo = [
+let combo = [
   // FOUR ACROSS WINS
   [0,1,2],
   [5,6,7],
@@ -56,14 +50,8 @@ const combo = [
   [10,11,12,13,14],
 ];
 
-
-/*----- cached elements  -----*/
-
-
 /*----- event listeners -----*/
 
-
-// NAME OF THE SLOT MACHINE CELLS
 const bodyEl = document.querySelector('body');
 const screenEls = document.querySelectorAll('cells');
 const spinButtonEl = document.getElementById('spin-button');
@@ -85,14 +73,8 @@ balanceEl.innerText = balance
 initialize();
 
 function initialize() {
-  // popUp();
-  let winArray;
-  let winTotal;
-  balance;
-  let betAmount;
   selectBet();
   renderScreen();
-  // countSpins();
 };
 
 function selectBet() {
@@ -127,12 +109,6 @@ function selectBet() {
   })
 }
 
-function popUp () {
-  // spinButtonEl.addEventListener('click', function(){
-  //   alert('Click "OK" confirm if over the age of 18 years old, otherwise please do not enter.')})
-  //   return;
-  };
-
 function renderMessage(win, char, dragon) {
   if (dragon === `${dragon}`) {
     dragonMessage(win, char, dragon)
@@ -140,20 +116,7 @@ function renderMessage(win, char, dragon) {
     winMessage(win, char)
 }
 
-// THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
-function spinReel() {
-  winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
-  balance -= betAmount
-  console.log(balance)
-  winnerAmountEl.innerText = 0;
-  balanceEl.innerText = balance;
-  checkButtons()
-  checkWinner()
-}
-
-// MASTER renderScreen() FUNCTION WITHOUT VALUES ASSOCIATED IN THE CHARACTERS OBJECT
-// CHECK THE RESULTS THAT END UP IN screenEls
-// COMPARE AGAINST THE cellArray and winningCombos FOR WINNERS
+// RENDERS RANDOM ARRAY FOR WINNERS
 function renderScreen() {
   spinButtonEl.addEventListener('click', function(){
     spinReel(); // NEED TO CALL SPINREEL IN RENDER TO MAKE SURE THE NUMBERS ARE RESET WHEN BUTTON IS PRESSED
@@ -166,174 +129,209 @@ function renderScreen() {
   })
 };
 
+// THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
+function spinReel() {
+  let winArray = Array.from({length: 15}, () =>Math.floor(Math.random() * 5) + 1);
+  console.log(winArray)
+  balance -= betAmount
+  winnerAmountEl.innerText = 0;
+  balanceEl.innerText = balance;
+  rowWinCheck(winArray)
+  // checkWinner()
+}
+
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
-function checkWinner() {
-  const w = winArray;
+function rowWinCheck(w) {
   const v = VALUES;
   const c = CHARACTERS;
   const b = betAmount;
+  const com = combo
   let win;
-  messageEl.innerText = ''
-  // CHECK WINNER FUNCTIONS
-  rowOneCheck()
-  rowTwoCheck()
-  rowThreeCheck()
-  
-  
-  //CHECK ROW 1
-  function rowOneCheck() {
-    // ROW ONE 5 IN A ROW
-    if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
-      if(true) {
-        if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
-          // ADD A JACKPOT NOTIFICATION
-          win = ((v[w[0]] * 5) * 5) * b;
-          betLogic(win)
-          renderMessage(win, c[w[0]], c[w[0]])
-        } else {
-          win = ((v[w[0]] * 5) * 3) * b;
-          betLogic(win)
-          renderMessage(win, c[w[0]])
-        }
-      }
-      // ROW ONE 4 IN A ROW
-    } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
-      if(true) {
-        if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
-          // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
-          win = ((v[w[0]] * 4) * 2) * b;
-          betLogic(win)
-          renderMessage(win, c[w[0]])
-        } else {
-          win = (v[w[0]] * 4) * b;
-          betLogic(win)
-          renderMessage(win, c[w[0]])
-        }
-      }
-      // ROW ONE 3 IN A ROW
-    } else if (w[0] === w[1] && w[1] === w[2]) {
-      if(true) {
-        if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
-          win = v[w[0]] * 3 * b;
-          betLogic(win)
-          renderMessage(win, c[w[0]], c[w[0]])
-        } else {         
-          win = v[w[0]] * 3 * b;
-          betLogic(win)
-          renderMessage(win, c[w[0]])
-        }
-      }
+  // COMBO [I][J] IS THE INDEX
+  for (let i = 0; i < combo.length; i++) {
+    for (let j = 0; j <combo[i].length; j++) {
+      // if (w.indexOf(combo[i][j]))
+      let winningArrays = combo[i];
+      // console.log(winningArrays)
+      console.log(w[winningArrays])
     }
   }
-
-  // CHECK ROW 2
-  function rowTwoCheck() {
-    
-    // ROW TWO 5 IN A ROW
-    if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
-      if(true) {
-        if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
-          // ADD A JACKPOT NOTIFICATION
-          win = ((v[w[5]] * 5) * 5) * b;
-          betLogic(w)
-          renderMessage(win, c[w[5]], c[w[5]])
-        } else {
-          win = ((v[w[5]] * 5) * 3) * b;
-          betLogic(w)
-          renderMessage(win, c[w[5]])
-        }
-      }
-      
-      // ROW TWO 4 IN A ROW
-    } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-      if(true) {
-        if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
-          win = ((v[w[5]] * 4) * 2) * b;
-          betLogic(w)
-          renderMessage(win, c[w[5]])
-        } else {
-          win = (v[w[5]] * 4) * b;
-          betLogic(w)
-          renderMessage(win, c[w[5]])
-        }
-      }
-      
-      // ROW TWO 3 IN A ROW
-    } else if (w[5] === w[6] && w[6] === w[7]) {
-      if(true) {
-        if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
-          win = (v[w[5]] * 3) * b;
-          betLogic(win)
-          renderMessage(win, c[w[5]])
-        } else {
-          win = (v[w[5]] * 3) * b;
-          betLogic(win)
-          renderMessage(win, c[w[5]])
-        }
-      }
-    }
-  }
-  
-  // CHECK ROW 3
-  function rowThreeCheck() {
-    
-    // ROW THREE 5 IN A ROW
-    if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-      if(true) {
-        if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
-          win = ((v[w[10]] * 5) * 5) * b;
-          betLogic(win)
-          renderMessage(win, c[w[10]], c[w[10]])
-          return;
-        } else {
-          win = ((v[w[10]] * 5) * 3) * b;
-          betLogic(win)
-          renderMessage(win, c[w[10]])
-        }
-      }
-      
-      // ROW THREE 4 IN A ROW
-    } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-      if(true) {
-        if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
-          win = ((v[w[10]] * 4) * 2) * b;
-          betLogic(win)
-          renderMessage(win, c[w[10]])
-        } else {
-          win = (v[w[10]] * 4) * b;
-          betLogic(win)
-          renderMessage(win, c[w[10]])
-        }  
-      }
-      
-      // ROW THREE 3 IN A ROW
-    } else if (w[10] === w[11] && w[11] === w[12]) {
-      if(true) {
-        if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
-          win = (v[w[10]] * 3) * b;
-          betLogic(w)
-          renderMessage(win, c[w[10]])
-        } else {
-          win = (v[w[10]] * 3) * b;
-          betLogic(win)
-          renderMessage(win, c[w[10]])
-        }
-      }
-    }
-  }
+      // console.log(w[combo[i][j]])
+      // console.log(combo[i])
+      // console.log(combo[i][0])
+      // console.log(combo[i][j])
+      // console.log(w[combo[i][j]])
+      // console.log(w[combo[i][j]], combo[i][j])
 };
+rowWinCheck();
 
+// function checkWinner() {
+//   const w = winArray;
+//   const v = VALUES;
+//   const c = CHARACTERS;
+//   const b = betAmount;
+//   let win;
+//   messageEl.innerText = ''
+//   // CHECK WINNER FUNCTIONS
+//   rowOneCheck()
+//   rowTwoCheck()
+//   rowThreeCheck()
+//   checkButtons()
+
+//   // CHECK ROW 1
+//   function rowOneCheck() {
+//     // ROW ONE 5 IN A ROW
+//     if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
+//       if(true) {
+//         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3] && w[3] === w[4]) {
+//           // ADD A JACKPOT NOTIFICATION
+//           win = ((v[w[0]] * 5) * 5) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[0]], c[w[0]])
+//         } else {
+//           win = ((v[w[0]] * 5) * 3) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[0]])
+//         }
+//       }
+//       // ROW ONE 4 IN A ROW
+//     } else if (w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
+//       if(true) {
+//         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2] === w[3]) {
+//           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
+//           win = ((v[w[0]] * 4) * 2) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[0]])
+//         } else {
+//           win = (v[w[0]] * 4) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[0]])
+//         }
+//       }
+//       // ROW ONE 3 IN A ROW
+//     } else if (w[0] === w[1] && w[1] === w[2]) {
+//       if(true) {
+//         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
+//           win = v[w[0]] * 3 * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[0]], c[w[0]])
+//         } else {         
+//           win = v[w[0]] * 3 * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[0]])
+//         }
+//       }
+//     }
+//   }
+
+//   // CHECK ROW 2
+//   function rowTwoCheck() {
+    
+//     // ROW TWO 5 IN A ROW
+//     if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9]) {
+//       if(true) {
+//         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
+//           // ADD A JACKPOT NOTIFICATION
+//           win = ((v[w[5]] * 5) * 5) * b;
+//           betLogic(w)
+//           renderMessage(win, c[w[5]], c[w[5]])
+//         } else {
+//           win = ((v[w[5]] * 5) * 3) * b;
+//           betLogic(w)
+//           renderMessage(win, c[w[5]])
+//         }
+//       }
+      
+//       // ROW TWO 4 IN A ROW
+//     } else if (w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
+//       if(true) {
+//         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
+//           win = ((v[w[5]] * 4) * 2) * b;
+//           betLogic(w)
+//           renderMessage(win, c[w[5]])
+//         } else {
+//           win = (v[w[5]] * 4) * b;
+//           betLogic(w)
+//           renderMessage(win, c[w[5]])
+//         }
+//       }
+      
+//       // ROW TWO 3 IN A ROW
+//     } else if (w[5] === w[6] && w[6] === w[7]) {
+//       if(true) {
+//         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
+//           win = (v[w[5]] * 3) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[5]])
+//         } else {
+//           win = (v[w[5]] * 3) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[5]])
+//         }
+//       }
+//     }
+//   }
+  
+//   // CHECK ROW 3
+//   function rowThreeCheck() {
+    
+//     // ROW THREE 5 IN A ROW
+//     if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
+//       if(true) {
+//         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13] && w[13] === w[14]) {
+//           win = ((v[w[10]] * 5) * 5) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[10]], c[w[10]])
+//           return;
+//         } else {
+//           win = ((v[w[10]] * 5) * 3) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[10]])
+//         }
+//       }
+      
+//       // ROW THREE 4 IN A ROW
+//     } else if (w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
+//       if(true) {
+//         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
+//           win = ((v[w[10]] * 4) * 2) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[10]])
+//         } else {
+//           win = (v[w[10]] * 4) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[10]])
+//         }  
+//       }
+      
+//       // ROW THREE 3 IN A ROW
+//     } else if (w[10] === w[11] && w[11] === w[12]) {
+//       if(true) {
+//         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
+//           win = (v[w[10]] * 3) * b;
+//           betLogic(w)
+//           renderMessage(win, c[w[10]])
+//         } else {
+//           win = (v[w[10]] * 3) * b;
+//           betLogic(win)
+//           renderMessage(win, c[w[10]])
+//         }
+//       }
+//     }
+//   }
+// };
 
 function dragonMessage(win, char, dragon) {
   const dragonMessage = document.createElement('p');
   dragonMessage.innerText = `${dragon} let you win ${win}!`;
+  dragonMessage.style.fontSize = "2vmin"
   messageEl.appendChild(dragonMessage);
 }
 
 function winMessage(win, char) {
   const winMessageEl = document.createElement('p');
   winMessageEl.innerText = `You won ${win}! with ${char}`;
-  winMessageEl.style.fontSize = "2.25vmin"
+  winMessageEl.style.fontSize = "2vmin"
   messageEl.appendChild(winMessageEl);
 }
 
@@ -348,7 +346,6 @@ function betLogic(y) {
 }
 
 function checkButtons() {
-  console.log(balance, win)
   balanceEl.innerText = balance;
   // IF CREDIT BALANCE UNDER 5; HIDE ALL BUTTONS AND WIN TOTAL AND DISPLAY BALANCE ONLY
   if (balance < 5) {
