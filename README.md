@@ -3,11 +3,17 @@
 ## SCREENSHOTS
 
 <div id="header" align="center">
-  <img src="https://imgur.com/t6XbMaX.png " width="800" height="400">
+Image of the game board and play area.
+  <img src="https://i.imgur.com/M618lVR.png" width="800" height="400">
+Image of the bet and win area.
+  <img src="https://i.imgur.com/kXnDYow.png" width="800" height="200">
+Image of the win notifications with amount won.
+  <img src="https://i.imgur.com/BKluYLm.png" width="800" height="400">
+
 </div>
 
 ## DESCRIPTION
-Dragon Legacy is a web based javascript slot machine game. This game simulates a slot machine found in casinos or online. You can win by matching characters in a row of 3-in-a-row, 4-in-a-row and 5-in-a-row.
+Dragon Legacy is a web based javascript slot machine game. This game simulates a slot machine found in casinos or online. You win by matching characters in a row of 3-in-a-row, 4-in-a-row and 5-in-a-row from left to right.
 
 ## TECHNOLOGIES USED
 * HTML

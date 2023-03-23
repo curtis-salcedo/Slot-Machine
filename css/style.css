@@ -51,8 +51,9 @@ h1 {
   display: grid;
   height: 17vh;
   width: 14vw;
-  background-color: rgb(77, 47, 8);
+  background-color: rgb(255, 255, 255);
   align-items: center;
+  align-content: center;
   justify-content: center;
   text-align: center;
   font-size: 12vmin;
@@ -69,7 +70,8 @@ footer {
   font-family: 'Carter One', cursive;
   border: solid .25vh #ffd700;
   border-radius: 3vmin;
-  background-color: rgb(77, 47, 8);
+  /* background-color: rgb(77, 47, 8); */
+  background-color: #dbba00;
   color: rgba(255, 255, 255, 0.719);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

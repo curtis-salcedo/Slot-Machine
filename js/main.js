@@ -87,10 +87,6 @@ function initialize() {
 
 function selectBet() {
   spinButtonEl.style.visibility = 'hidden';
-  if (balance >= 5) {
-    betButtonEls.style.visibility = 'visible'
-  }
-  
   betFiveButton.addEventListener('click', function(e) {
     betAmount = 5;
     messageEl.innerText = 'PRESS THE SPIN BUTTON'
@@ -143,8 +139,8 @@ function spinReel() {
   console.log(balance)
   winnerAmountEl.innerText = 0;
   balanceEl.innerText = balance;
-  checkButtons()
   checkWinner()
+  checkButtons(betAmount)
 }
 
 // THIS FUNCTION CHECKS WINNERS AGAINS THE winArray ARRAY. 3 IN A ROW, 4 IN A ROW, 5 IN A ROW 
@@ -297,13 +293,14 @@ function checkWinner() {
 function dragonMessage(win, char, dragon) {
   const dragonMessage = document.createElement('p');
   dragonMessage.innerText = `${dragon} let you win ${win}!`;
+  dragonMessage.style.fontSize = "2vmin"
   messageEl.appendChild(dragonMessage);
 }
 
 function winMessage(win, char) {
   const winMessageEl = document.createElement('p');
-  winMessageEl.innerText = `You won ${win}! with ${char}`;
-  winMessageEl.style.fontSize = "2.25vmin"
+  winMessageEl.innerText = `You won ${win} with ${char}!`;
+  winMessageEl.style.fontSize = "2vmin"
   messageEl.appendChild(winMessageEl);
 }
 
@@ -316,8 +313,11 @@ function betLogic(y) {
   checkButtons()
 }
 
-function checkButtons() {
+function checkButtons(bet) {
   balanceEl.innerText = balance;
+  if (balance < 0) {
+    balanceEl.innerText = 0;
+  }
   // IF CREDIT BALANCE UNDER 5; HIDE BUTTONS, WIN TOTAL AND DISPLAY BALANCE
   if (balance < 5) {
     messageEl.innerText = "Add more credits to continue"

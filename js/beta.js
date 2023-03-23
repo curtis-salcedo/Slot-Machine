@@ -119,6 +119,7 @@ function renderScreen() {
     spinReel(); // NEED TO CALL SPINREEL IN RENDER TO MAKE SURE THE NUMBERS ARE RESET WHEN BUTTON IS PRESSED
     // console.log(winArray)
     const cells = document.querySelectorAll('div');
+    console.log(winArray)
     winArray.forEach(function(cell, index) {
       const getChars = CHARACTERS[cell];
       divEls[index].innerText = getChars;
@@ -189,6 +190,7 @@ function checkWinner() {
       // ROW ONE 3 IN A ROW
     } else if (w[0] === w[1] && w[1] === w[2]) {
       if(true) {
+        animateThree(`${w[0]}`)
         if(w[0] === 5 && w[0] === w[1] && w[1] === w[2] && w[2]) {
           win = v[w[0]] * 3 * b;
           betLogic(win)
@@ -197,7 +199,6 @@ function checkWinner() {
           win = v[w[0]] * 3 * b;
           betLogic(win)
           renderMessage(win, c[w[0]])
-          animateThree(`${w[0]}`)
         }
       }
     }
@@ -238,6 +239,7 @@ function checkWinner() {
       // ROW TWO 3 IN A ROW
     } else if (w[5] === w[6] && w[6] === w[7]) {
       if(true) {
+        animateThree(`${w[5]}`)
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
           win = (v[w[5]] * 3) * b;
           betLogic(win)
@@ -286,6 +288,7 @@ function checkWinner() {
       // ROW THREE 3 IN A ROW
     } else if (w[10] === w[11] && w[11] === w[12]) {
       if(true) {
+        animateThree(`${w[10]}`)
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
           win = (v[w[10]] * 3) * b;
           betLogic(win)
@@ -386,10 +389,10 @@ function resetAnimation() {
 
 
 function animateThree(k) {
-  w = winArray
-  console.log(k)
-  for (let i = 0; i < 3; i++) {
-    let celly = document.getElementById(`${i}`)
+  let w = winArray
+  for (let i = 0; i < w.length; i++) {
+    console.log(w[i])
+    let celly = document.getElementById(`${w}`)
     setTimeout((celly.classList.add('win-cells')), 300)
   }
   setTimeout((resetRowAnimation), 1000)

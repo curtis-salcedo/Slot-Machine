@@ -221,6 +221,6 @@ footer {
 }
 
 .win-cells {
-  animation: shakeY;
+  animation: pulse;
   animation-duration: 2s;
 }
