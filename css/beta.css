@@ -28,6 +28,7 @@ h1 {
   background-size: 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: bounceInDown 2s;
 }
 
 .container {
@@ -41,7 +42,7 @@ h1 {
   grid-template: repeat(3, 1fr) / repeat(5, 1fr);
   border: solid #ffd700;
   border-radius: 2vmin;
-  animation: shadow-glow 2.5s ease-in-out infinite alternate;
+  animation: shadow-glow 5s ease-in-out infinite alternate;
   gap: .35vmin .95vmin;
   margin-bottom: 2vmin;
 }
@@ -75,6 +76,7 @@ footer {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0;
+  animation: shadow-glow 5s ease-in-out infinite alternate;
 }
 
 #balance-text {
@@ -200,10 +202,10 @@ footer {
   0% {
     box-shadow: 0 0 2vmin #ffd700;
   }
-  50% {
+  30% {
     box-shadow: 0 0 10vmin #ffd700;
   }
-  100% {
+  600% {
     box-shadow: 0 0 15vmin #ffd700;
   }
 }

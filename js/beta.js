@@ -87,10 +87,6 @@ function initialize() {
 
 function selectBet() {
   spinButtonEl.style.visibility = 'hidden';
-  if (balance >= 5) {
-    betButtonEls.style.visibility = 'visible'
-  }
-  
   betFiveButton.addEventListener('click', function(e) {
     betAmount = 5;
     messageEl.innerText = 'PRESS THE SPIN BUTTON'
@@ -183,7 +179,7 @@ function checkWinner() {
           // DRAGON GET'S A LITTLE KICKER - DOUBLE ACTUAL CREDITS
           win = ((v[w[0]] * 4) * 2) * b;
           betLogic(win)
-          renderMessage(win, c[w[0]])
+          renderMessage(win, c[w[0]], c[w[0]])
         } else {
           win = (v[w[0]] * 4) * b;
           betLogic(win)
@@ -215,11 +211,11 @@ function checkWinner() {
         if(w[5] === 5 && w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8] && w[8] === w[9] ) {
           // ADD A JACKPOT NOTIFICATION
           win = ((v[w[5]] * 5) * 5) * b;
-          betLogic(w)
+          betLogic(win)
           renderMessage(win, c[w[5]], c[w[5]])
         } else {
           win = ((v[w[5]] * 5) * 3) * b;
-          betLogic(w)
+          betLogic(win)
           renderMessage(win, c[w[5]])
         }
       }
@@ -229,11 +225,11 @@ function checkWinner() {
       if(true) {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7] && w[7] === w[8]) {
           win = ((v[w[5]] * 4) * 2) * b;
-          betLogic(w)
-          renderMessage(win, c[w[5]])
+          betLogic(win)
+          renderMessage(win, c[w[5]], c[w[5]])
         } else {
           win = (v[w[5]] * 4) * b;
-          betLogic(w)
+          betLogic(win)
           renderMessage(win, c[w[5]])
         }
       }
@@ -244,7 +240,7 @@ function checkWinner() {
         if(w[5] === 5 && w[5] === w[6] && w[6] === w[7]) {
           win = (v[w[5]] * 3) * b;
           betLogic(win)
-          renderMessage(win, c[w[5]])
+          renderMessage(win, c[w[5]], c[w[5]])
         } else {
           win = (v[w[5]] * 3) * b;
           betLogic(win)
@@ -278,7 +274,7 @@ function checkWinner() {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12] && w[12] === w[13]) {
           win = ((v[w[10]] * 4) * 2) * b;
           betLogic(win)
-          renderMessage(win, c[w[10]])
+          renderMessage(win, c[w[10]], c[w[5]])
         } else {
           win = (v[w[10]] * 4) * b;
           betLogic(win)
@@ -291,8 +287,8 @@ function checkWinner() {
       if(true) {
         if(w[10] === 5 && w[10] === 5 && w[10] === w[11] && w[11] === w[12]) {
           win = (v[w[10]] * 3) * b;
-          betLogic(w)
-          renderMessage(win, c[w[10]])
+          betLogic(win)
+          renderMessage(win, c[w[10]], c[w[5]])
         } else {
           win = (v[w[10]] * 3) * b;
           betLogic(win)
@@ -305,7 +301,7 @@ function checkWinner() {
 
 function dragonMessage(win, char, dragon) {
   const dragonMessage = document.createElement('p');
-  dragonMessage.innerText = `${dragon} let you win ${win}!`;
+  dragonMessage.innerText = `${dragon} gave you ${win}!`;
   messageEl.appendChild(dragonMessage);
 }
 
@@ -329,7 +325,7 @@ function checkButtons() {
   balanceEl.innerText = balance;
   // IF CREDIT BALANCE UNDER 5; HIDE BUTTONS, WIN TOTAL AND DISPLAY BALANCE
   if (balance < 5) {
-    messageEl.innerText = ("Add more credits to continue")
+    messageEl.innerText = "Add more credits to continue"
     spinButtonEl.style.visibility = 'hidden'
     betFiveButton.style.visibility = 'hidden'
     betTenButton.style.visibility = 'hidden'
@@ -348,8 +344,8 @@ function checkButtons() {
   if (balance >= 10 && balance <= 24) {
     betTenButton.style.visibility = 'visible'
     betTwentyFiveButton.style.visibility = 'hidden'
-    betFiveButton.classList.remove('bet-button-active')
-    betTenButton.classList.add('bet-button-active')
+    betFiveButton.classList.add('bet-button-active')
+    betTenButton.classList.remove('bet-button-active')
     betAmount = 10;
   }
   // IF CREDIT BALANCE IS 25 OR OVER; KEEP CURRENT SELECTION BUT ADD BET AMOUNT 25 TO BE VISIBLE
@@ -361,8 +357,6 @@ function checkButtons() {
   }
 }
 
-
-
 function animateSpinButton() {
   betButtonEls.addEventListener('click', function(){
     spinButtonEl.classList.add('animate-spin')
@@ -371,18 +365,20 @@ function animateSpinButton() {
 }
 animateSpinButton()
 
+spinButtonEl.addEventListener('click', function(e) {
+  for (let i = 0; i < 15; i++) {
+    let cellId = document.getElementById(`${i}`)
+    .classList.add('flip')
+  }
+  setTimeout((resetAnimation), 200)
+});
 
-function animateCells() {
-  spinButtonEl.addEventListener('click', function() {
+function resetAnimation() {
     for (let i = 0; i < 15; i++) {
-      let cellId = document.getElementById(`${i}`)
-      .classList.add('flip')
-    }
-  })
+    let cellId = document.getElementById(`${i}`)
+    .classList.remove('flip')
+  }
 }
-animateCells()
-
-
 
 // // EMOJIS FOR renderScreen
 // CHARACTERS = {

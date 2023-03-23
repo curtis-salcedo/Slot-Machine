@@ -28,6 +28,7 @@ h1 {
   background-size: 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: bounceInDown 2s;
 }
 
 .container {
@@ -41,7 +42,7 @@ h1 {
   grid-template: repeat(3, 1fr) / repeat(5, 1fr);
   border: solid #ffd700;
   border-radius: 2vmin;
-  animation: shadow-glow 4s ease-in-out infinite alternate;
+  animation: shadow-glow 5s ease-in-out infinite alternate;
   gap: .35vmin .95vmin;
   margin-bottom: 2vmin;
 }
@@ -59,7 +60,6 @@ h1 {
   border-style: solid;
   /* border-image: linear-gradient(#ffd700, rgb(16, 97, 16), #ffd700) 1; */
   border-image: linear-gradient(rgb(4, 56, 4), #ffd700, rgb(4, 56, 4)) 1;
-  animation: shadow-glow 4s ease-in-out infinite alternate;
 }
 
 footer {
@@ -75,6 +75,7 @@ footer {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 2fr fr 1fr;
   gap: 0;
+  animation: shadow-glow 5s ease-in-out infinite alternate;
 }
 
 #balance-text {
@@ -164,6 +165,7 @@ footer {
   align-self: center;
   justify-self: center;
   cursor: pointer;
+  margin-top: -3vmin;
 }
 
 #bet-five {
@@ -196,21 +198,24 @@ footer {
   cursor: pointer;
 }
 
-@keyframes rotate {
-  0% {
-    transform: rotate(0)
-  }
-  100% {
-    transform: rotate(360deg)
-  }
+.animate-spin {
+  animation: pulse;
+  animation-duration: .65s;
 }
 
+.flip {
+  animation: flipInX;
+  animation-duration: .45s;
+}
 
 @keyframes shadow-glow {
   0% {
     box-shadow: 0 0 2vmin #ffd700;
   }
-  100% {
+  45% {
     box-shadow: 0 0 10vmin #ffd700;
+  }
+  750% {
+    box-shadow: 0 0 20vmin #ffd700;
   }
 }
