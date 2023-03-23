@@ -26,7 +26,6 @@ let winArray = ['','','','','','','','','','','','','','','',];
 let cells;
 
 // STARTING BALANCE
-// HAVE POPUP TO CHOOSE THE AMOUNT TO START IN BANK
 let balance = 29;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
@@ -82,7 +81,6 @@ balanceEl.innerText = balance
 initialize();
 
 function initialize() {
-  popUp();
   selectBet();
   renderScreen();
 };
@@ -119,13 +117,6 @@ function selectBet() {
   })
 }
 
-function renderMessage(win, char, dragon) {
-  if (dragon === `${dragon}`) {
-    dragonMessage(win, char, dragon)
-  } else 
-    winMessage(win, char)
-}
-
 // RENDERS RANDOM ARRAY FOR WINNERS
 function renderScreen() {
   spinButtonEl.addEventListener('click', function(){
@@ -138,6 +129,13 @@ function renderScreen() {
     })
   })
 };
+
+function renderMessage(win, char, dragon) {
+  if (dragon === `${dragon}`) {
+    dragonMessage(win, char, dragon)
+  } else 
+    winMessage(win, char)
+}
 
 // THIS IS USED IN THE RENDERSCREEN FUNCTION TO "SPIN" THE SLOTS FOR RANDOM NUMBERS
 function spinReel() {
@@ -162,8 +160,6 @@ function checkWinner() {
   rowOneCheck()
   rowTwoCheck()
   rowThreeCheck()
-  
-  
   // CHECK ROW 1
   function rowOneCheck() {
     // ROW ONE 5 IN A ROW
@@ -333,7 +329,7 @@ function betLogic(y) {
 function checkButtons() {
   console.log(balance, win)
   balanceEl.innerText = balance;
-  // IF CREDIT BALANCE UNDER 5; HIDE ALL BUTTONS AND WIN TOTAL AND DISPLAY BALANCE ONLY
+  // IF CREDIT BALANCE UNDER 5; HIDE BUTTONS, WIN TOTAL AND DISPLAY BALANCE
   if (balance < 5) {
     messageEl.innerText = ("Add more credits to continue")
     spinButtonEl.style.visibility = 'hidden'
@@ -341,7 +337,7 @@ function checkButtons() {
     betTenButton.style.visibility = 'hidden'
     betTwentyFiveButton.style.visibility = 'hidden'
   }
-  // IF CREDIT BALANCE IS 5 TO 9; HIDE BET AMOUNT 10 AND 25, AUTO SELECT BET AMOUNT 5, HIGHLIGHT BET 5
+  // IF CREDIT BALANCE IS 5 TO 9; HIDE BET AMOUNTS 10 AND 25, AUTO SELECT BET AMOUNT 5
   if (balance >= 5 && balance < 10) {
     betFiveButton.style.visibility = 'visible'
     betTenButton.style.visibility = 'hidden'

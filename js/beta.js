@@ -119,8 +119,7 @@ function renderMessage(win, char, dragon) {
 // RENDERS RANDOM ARRAY FOR WINNERS
 function renderScreen() {
   spinButtonEl.addEventListener('click', function(){
-    spinReel(); // NEED TO CALL SPINREEL IN RENDER TO MAKE SURE THE NUMBERS ARE RESET WHEN BUTTON IS PRESSED
-    // console.log(winArray)
+    spinReel(); 
     const cells = document.querySelectorAll('div');
     winArray.forEach(function(cell, index) {
       const getChars = CHARACTERS[cell];
@@ -136,6 +135,7 @@ function spinReel() {
   balance -= betAmount
   winnerAmountEl.innerText = 0;
   balanceEl.innerText = balance;
+  checkButtons()
   checkWinner()
 }
 

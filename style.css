@@ -164,12 +164,11 @@ footer {
   align-self: center;
   justify-self: center;
   cursor: pointer;
-  margin-top: -1vmin;
 }
 
 #bet-five {
   width: 6vmin;
-  height: 3vh;
+  height: 4vmin;
   border: .25vmin solid #ffd700;
   grid-row: 4;
   grid-column: 2;
@@ -179,7 +178,7 @@ footer {
 
 #bet-ten {
   width: 6vmin;
-  height: 3vmin;
+  height: 4vmin;
   border: .25vmin solid #ffd700;
   grid-row: 4;
   grid-column: 2;
@@ -189,7 +188,7 @@ footer {
 
 #bet-twentyfive {
   width: 6vmin;
-  height: 3vmin;
+  height: 4vmin;
   border: .25vmin solid #ffd700;
   grid-row: 4;
   grid-column: 2;
