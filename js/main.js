@@ -320,14 +320,12 @@ function betLogic(y) {
   if (y > 0) {
     winnerAmountEl.innerText = y;
     balance += y;
-    console.log(balance)
     balanceEl.innerText = balance;
   } 
   checkButtons()
 }
 
 function checkButtons() {
-  console.log(balance, win)
   balanceEl.innerText = balance;
   // IF CREDIT BALANCE UNDER 5; HIDE BUTTONS, WIN TOTAL AND DISPLAY BALANCE
   if (balance < 5) {
