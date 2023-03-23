@@ -26,7 +26,7 @@ let winArray = ['','','','','','','','','','','','','','','',];
 let cells;
 
 // STARTING BALANCE
-let balance = 29;
+let balance = 250;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal;
@@ -359,7 +359,7 @@ function animateSpinButton() {
 animateSpinButton()
 
 spinButtonEl.addEventListener('click', function(e) {
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 15; i++) {
     let cellId = document.getElementById(`${i}`)
     .classList.add('flip')
   }
