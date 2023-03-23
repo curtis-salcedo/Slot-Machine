@@ -26,7 +26,7 @@ let winArray = ['','','','','','','','','','','','','','','',];
 let cells;
 
 // STARTING BALANCE
-let balance = 29;
+let balance = 250;
 
 // BALANCE THAT IS WON AFTER EVERY TIME SPIN BUTTON IS PRESSED
 let winTotal;
@@ -197,6 +197,7 @@ function checkWinner() {
           win = v[w[0]] * 3 * b;
           betLogic(win)
           renderMessage(win, c[w[0]])
+          animateThree(`${w[0]}`)
         }
       }
     }
@@ -299,6 +300,9 @@ function checkWinner() {
   }
 };
 
+
+
+
 function dragonMessage(win, char, dragon) {
   const dragonMessage = document.createElement('p');
   dragonMessage.innerText = `${dragon} gave you ${win}!`;
@@ -379,6 +383,25 @@ function resetAnimation() {
     .classList.remove('flip')
   }
 }
+
+
+function animateThree(k) {
+  w = winArray
+  console.log(k)
+  for (let i = 0; i < 3; i++) {
+    let celly = document.getElementById(`${i}`)
+    setTimeout((celly.classList.add('win-cells')), 300)
+  }
+  setTimeout((resetRowAnimation), 1000)
+}
+
+function resetRowAnimation() {
+  for (let i = 0; i < 15; i++) {
+    let cellId = document.getElementById(`${i}`)
+    .classList.remove('win-cells')
+  }
+}
+
 
 // // EMOJIS FOR renderScreen
 // CHARACTERS = {

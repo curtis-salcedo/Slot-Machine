@@ -219,3 +219,8 @@ footer {
   animation: flipInX;
   animation-duration: .35s;
 }
+
+.win-cells {
+  animation: shakeY;
+  animation-duration: 2s;
+}
