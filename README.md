@@ -1,4 +1,4 @@
-# DRAGON LEGACY SLOT MACHINE
+# [DRAGON LEGACY SLOT MACHINE](https://curtis-salcedo.github.io/Slot-Machine/)
 
 ## SCREENSHOTS
 
