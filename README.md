@@ -3,11 +3,14 @@
 ## SCREENSHOTS
 
 <div id="header" align="center">
-Image of the game board and play area.
+<br>Image of the game board and play area.
+
   <img src="https://i.imgur.com/M618lVR.png" width="800" height="400">
-Image of the bet and win area.
+<br>Image of the bet and win area.
+
   <img src="https://i.imgur.com/kXnDYow.png" width="800" height="200">
-Image of the win notifications with amount won.
+<br>Image of the win notifications with amount won.
+
   <img src="https://i.imgur.com/BKluYLm.png" width="800" height="400">
 
 </div>
@@ -21,7 +24,7 @@ Dragon Legacy is a web based javascript slot machine game. This game simulates a
 * JAVASCRIPT
 
 ## GETTING STARTED
-
+### [GAME-LINK](https://curtis-salcedo.github.io/Slot-Machine/)
 ### [GITHUB](https://github.com/curtis-salcedo/Slot-Machine.git)
 ### [TRELLO](https://trello.com/b/9UCuiymD/personal-projects)
 
